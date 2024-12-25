@@ -1,0 +1,103 @@
+.body {
+
+    .no-select {
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Safari */
+        -khtml-user-select: none;
+        /* Konqueror HTML */
+        -moz-user-select: none;
+        /* Old versions of Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
+        /* Non-prefixed version, currently
+        supported by Chrome, Edge, Opera and Firefox */
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        
+        .nav-pc-view {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+            padding: 0 2rem;
+            background-color: #AFE1AF;
+
+            @media screen and (max-width: 400px) {
+                .links {
+                    display: none;
+                }
+            }
+        }
+        .nav-mobile-view {
+            display: none;
+            background-color: #d5f5d5;
+
+            @media screen and (max-width: 400px) {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0.5rem 2rem;
+            }
+        }
+
+        .logo svg {
+            fill: #fff;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .links-container {
+            display: flex;
+            align-items: end;
+            gap: 5rem;
+        }
+
+        ul.links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            color: #3b684f;
+
+            li {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                gap: 0.3rem;
+                font-size: 1.6rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                svg {
+                    stroke: #2a4938;
+                    width: 2.2rem;
+                    height: 1.8rem;
+                }
+            }
+        }
+
+        .user {
+            .login {
+                cursor: pointer;
+                color: #3b684f;
+                font-size: 2rem;
+            }
+        }
+    }
+}

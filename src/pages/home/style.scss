@@ -1,0 +1,127 @@
+.home-page {
+    margin-top: 5rem;
+
+    @media screen and (max-width: 400px) {
+        margin-top: 8rem;
+    }
+
+    .hero-section {
+        padding: 3.5rem;
+
+        @media screen and (max-width: 400px) {
+            padding: 2.5rem;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 600;
+        }
+        p {
+            font-size: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .hero-img {
+            width: 12rem;
+        }
+
+        & > div {
+            background-color: rgba(175, 225, 175, 0.24);
+            padding: 3rem 6rem;
+            border-radius: 2rem;
+        }
+
+        .hero-content {
+            display: flex;
+            gap: 2rem;
+            justify-content: space-between;
+
+            @media screen and (max-width: 400px) {
+                display: none;
+            }
+        }
+
+        .hero-content-mobile-view {
+            display: none;
+            padding: 2rem 3rem;
+
+            @media screen and (max-width: 400px) {
+                display: block;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .flex-container {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+
+                p { 
+                    line-height: 1.25;
+                    font-size: 2.3rem;
+                }
+
+                .hero-img {
+                    width: 8rem;
+                }
+            }
+        }
+    }
+
+    .featured-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 3rem;
+
+        .featured-tabs {
+            width: 100%;
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .featured-tab-btns {
+                display: flex;
+                gap: 3rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.452);
+                padding: 0 3rem;
+
+                .button {
+                    font-size: 1.7rem;
+                    cursor: pointer;
+
+                    p { 
+                        padding: 0 1rem; 
+                        font-weight: 500;
+                        color: rgb(105, 105, 105);
+                    }
+                    
+                    &.active {
+                        p {
+                            color: rgb(52, 179, 52);
+                        }
+
+                        .active-border {
+                            height: 0.6rem;
+                            background-color: rgb(111, 185, 111);
+                            border-radius: 5px 5px 0 0;
+                        }
+                    }
+                }
+            }
+
+            .featured-tab-content {
+                width: 100%;
+                padding: 0 3rem;
+                margin-top: 3rem;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 3rem;
+            }
+        }
+    }
+}

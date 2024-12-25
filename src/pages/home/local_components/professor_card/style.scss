@@ -1,0 +1,65 @@
+.home-page .professor-card {    
+    padding: 2rem 5rem;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    color: rgb(85, 85, 85);
+    background-color: rgb(255, 255, 255);
+
+    background-repeat: no-repeat;
+    background-position: -5rem -23rem;
+    background-size: 30rem;
+
+    .img-container {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: rgb(230, 230, 230);
+        border: 0.5rem solid white;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    h3.name {
+        font-size: 1.7rem;
+        font-weight: 600;
+        line-height: 1.1;
+    }
+
+    p.college-name {
+        font-size: 1.4rem;
+        font-weight: 300;
+    }
+
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 2px solid rgba(0, 0, 0, 0.418);
+        padding: 0.5rem 1rem;
+        border-radius: 5rem;
+        font-size: 1.5rem;
+
+        .stars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                fill: rgb(82, 168, 82);
+            }
+        }
+    }
+}
