@@ -1,0 +1,25 @@
+.authentication-window .forgot-password {
+    h4 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+    .description {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 4rem;
+    }
+
+    .login {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-top: 4rem;
+        text-align: center;
+        
+        .login-link {
+            cursor: pointer;
+            color: #1A73E9;
+            text-decoration: underline;
+        }
+    }
+}

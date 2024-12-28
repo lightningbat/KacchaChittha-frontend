@@ -1,0 +1,30 @@
+.authentication-window .login {
+    h4 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 5rem;
+    }
+    .forgot-password {
+        font-size: 1.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #1A73E9;
+        padding: 0.5rem 1rem;
+        padding-left: 0;
+    }
+
+    .signup {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-top: 4rem;
+        text-align: center;
+        
+        .signup-link {
+            cursor: pointer;
+            color: #1A73E9;
+            text-decoration: underline;
+        }
+    }
+}

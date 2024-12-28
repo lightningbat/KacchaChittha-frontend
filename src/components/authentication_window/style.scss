@@ -1,0 +1,20 @@
+.authentication-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content-container {
+        width: clamp(25rem, 80%, 40rem);
+        padding: 4rem 2rem;
+        background-color: rgb(255, 255, 255);
+        border-radius: 1rem;
+    }
+}

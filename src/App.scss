@@ -97,6 +97,10 @@
                 cursor: pointer;
                 color: #3b684f;
                 font-size: 2rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
     }

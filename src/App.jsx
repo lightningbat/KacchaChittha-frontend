@@ -1,7 +1,10 @@
 import './App.scss';
 import { HomePage } from './pages'
+import { AuthenticationWindow } from './components';
+import { useState } from 'react';
 
 function App() {
+  const [showAuthWindow, setShowAuthWindow] = useState(false);
 
   return (
     <div className="body">
@@ -72,7 +75,7 @@ function App() {
               </li>
             </ul>
             <div className='user'>
-              <p className='login'>Login</p>
+              <p className='login' onClick={()=> setShowAuthWindow(true)}>Login</p>
             </div>
           </div>
         </div>
@@ -133,6 +136,7 @@ function App() {
         </div>
       </nav>
       <HomePage />
+      {showAuthWindow && <AuthenticationWindow closeWindow={() => setShowAuthWindow(false)} />}
     </div>
   )
 }

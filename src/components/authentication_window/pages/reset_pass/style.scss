@@ -1,0 +1,26 @@
+.authentication-window .reset-password {
+    h4 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .email {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #444444;
+        text-decoration: underline;
+        margin-bottom: 3.5rem;
+    }
+    .page-change-link {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-top: 2rem;
+        
+        .btn {
+            cursor: pointer;
+            color: #1A73E9;
+            text-decoration: underline;
+        }
+    }
+}
