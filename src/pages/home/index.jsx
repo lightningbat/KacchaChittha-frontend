@@ -1,8 +1,7 @@
 import './style.scss';
 import prof_snape from '../../assets/media/prof_snape.png';
 import { SearchBox } from '../../components';
-import CollegeCard from './local_components/college_card';
-import ProfessorCard from './local_components/professor_card';
+import { CollegeCard, ProfessorCard } from '../../components';
 
 import { useState } from 'react';
 

@@ -7,11 +7,11 @@ CollegeCard.propTypes = {
 }
 export default function CollegeCard({ img, name }) {
     return (
-        <div className="college-card">
+        <div className="college-card-global">
             <div className="img-container">
-                {img && <img src={img} alt="" />}
+                {img && <img className="college-img" src={img} alt="" />}
             </div>
-            <h3>{name ? name : "College Name"}</h3>
+            <h3 className="college-name">{name ? name : "College Name"}</h3>
         </div>
     )
 }

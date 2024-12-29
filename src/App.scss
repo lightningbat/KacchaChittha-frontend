@@ -71,14 +71,17 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            color: #3b684f;
-
+            
             li {
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                gap: 0.3rem;
-                font-size: 1.6rem;
+                a {
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                    gap: 0.3rem;
+                    font-size: 1.6rem;
+                    color: #3b684f;
+                    text-decoration: none;
+                }
 
                 &:hover {
                     text-decoration: underline;
