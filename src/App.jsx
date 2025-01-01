@@ -1,5 +1,5 @@
 import './App.scss';
-import { HomePage, CollegesPage, ProfessorsPage } from './pages'
+import { HomePage, CollegesPage, ProfessorsPage, ErrorPage } from './pages'
 import { AuthenticationWindow } from './components';
 import { useState } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
@@ -150,9 +150,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/colleges" element={<CollegesPage />} />
           <Route path="/professors" element={<ProfessorsPage />} />
-          <Route path="*" element={
-            <div style={{ marginTop: "10rem" }}>No such page</div>
-          } />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
       {showAuthWindow && <AuthenticationWindow closeWindow={() => setShowAuthWindow(false)} />}

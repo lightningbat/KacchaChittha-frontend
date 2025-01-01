@@ -9,11 +9,17 @@
     text-align: center;
     color: rgb(85, 85, 85);
     background-color: rgb(255, 255, 255);
-    margin: 0 auto;
 
     background-repeat: no-repeat;
     background-position: -5rem -23rem;
     background-size: 30rem;
+
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+    }
 
     .img-container {
         width: 8rem;
