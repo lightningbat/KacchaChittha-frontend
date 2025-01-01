@@ -13,7 +13,7 @@ export default function ProfessorCard({ img, name, college, rating }) {
     const background_image = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="${random_clr}" className="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>')`;
 
     return (
-        <div className="professor-card" style={{ backgroundImage: background_image }}>
+        <div className="professor-card-global" style={{ backgroundImage: background_image }}>
             <div className="img-container">
                 {img && <img src={img} alt="" />}
             </div>

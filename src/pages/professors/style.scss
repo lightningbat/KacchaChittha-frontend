@@ -1,0 +1,30 @@
+.professor-page {
+    padding: 5rem 0;
+    text-align: center;
+
+    @media screen and (max-width: 400px) {
+        padding-top: 8rem;
+    }
+
+    .page-heading {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        color: rgb(38, 78, 38);
+        font-weight: 600;
+    }
+
+    .search-box-cont {
+        margin-top: 5rem;
+        width: clamp(20rem, 80%, 60rem);
+        margin-inline: auto;
+    }
+
+    .list-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        margin-top: 5rem;
+        padding: 0 2rem;
+        gap: 2rem;
+    }
+}

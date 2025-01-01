@@ -1,5 +1,5 @@
 import './App.scss';
-import { HomePage, CollegesPage } from './pages'
+import { HomePage, CollegesPage, ProfessorsPage } from './pages'
 import { AuthenticationWindow } from './components';
 import { useState } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
@@ -13,14 +13,15 @@ function App() {
       <nav className='no-select'>
         <div className='nav-pc-view'>
           <div className="logo">
-            <svg width="66" height="61" viewBox="0 0 66 61" xmlns="http://www.w3.org/2000/svg">
-              <rect y="0.234497" width="9.6976" height="60.5264" />
-              <path d="M11.6522 35.6312L18.5094 28.7739L43.6131 53.8777L36.968 61L11.6522 35.6312Z" />
-              <path opacity="0.9" d="M32.968 0H43.968L9.38726 34.2743L8.61224 23.6994L32.968 0Z" />
-              <path d="M65.3856 0L57.1928 8.0256L38.968 8.0256L47.1608 0L65.3856 0Z" />
-              <path d="M36.968 53V61H64.968L56.2844 53H36.968Z" />
-            </svg>
-
+            <Link to="/">
+              <svg width="66" height="61" viewBox="0 0 66 61" xmlns="http://www.w3.org/2000/svg">
+                <rect y="0.234497" width="9.6976" height="60.5264" />
+                <path d="M11.6522 35.6312L18.5094 28.7739L43.6131 53.8777L36.968 61L11.6522 35.6312Z" />
+                <path opacity="0.9" d="M32.968 0H43.968L9.38726 34.2743L8.61224 23.6994L32.968 0Z" />
+                <path d="M65.3856 0L57.1928 8.0256L38.968 8.0256L47.1608 0L65.3856 0Z" />
+                <path d="M36.968 53V61H64.968L56.2844 53H36.968Z" />
+              </svg>
+            </Link>
           </div>
           <div className="links-container">
             <ul className='links'>
@@ -148,6 +149,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/colleges" element={<CollegesPage />} />
+          <Route path="/professors" element={<ProfessorsPage />} />
           <Route path="*" element={
             <div style={{ marginTop: "10rem" }}>No such page</div>
           } />
