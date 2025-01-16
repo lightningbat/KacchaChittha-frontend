@@ -41,7 +41,7 @@ export default function AuthenticationWindow({ closeWindow }) {
                 {currentPage === "signup" && <Signup changePage={changePage} defaultValue={userInput} setUserInput={setUserInput} />}
                 {currentPage === "forgot_pass" && <ForgotPass changePage={changePage} defaultValue={userInput} setUserInput={setUserInput} />}
                 {currentPage === "otp" && <Otp changePage={changePage} redirected_from={redirected_from.current} user_email={userInput.email} closeWindow={closeWindow} />}
-                {currentPage === "reset_pass" && <ResetPass changePage={changePage} />}
+                {currentPage === "reset_pass" && <ResetPass changePage={changePage} user_email={userInput.email} />}
             </div>
         </div>
     )

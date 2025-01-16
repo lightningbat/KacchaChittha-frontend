@@ -34,7 +34,7 @@ export default function Otp({ changePage, redirected_from, user_email, closeWind
 
         if (response.code === 200) {
             if (otp < 5000) closeWindow(true);
-            else changePage("reset_pass", true);
+            else changePage("reset_pass");
         }
         else {
             setLoading(false);
