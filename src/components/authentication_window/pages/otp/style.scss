@@ -24,6 +24,13 @@
         font-weight: 400;
     }
 
+    .trash-folder-mention {
+        font-size: 1.25rem;
+        font-weight: 300;
+        margin-top: 0.2rem;
+        text-align: center;
+    }
+
     .resent-otp {
         font-size: 1.6rem;
         font-weight: 500;
@@ -35,6 +42,14 @@
             padding: 0.5rem 1rem;
             padding-right: 0;
         }
+    }
+
+    form .form-error-msg {
+        color: rgb(255, 49, 49);
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+        height: 1.6rem;
     }
 
     .edit-email {
