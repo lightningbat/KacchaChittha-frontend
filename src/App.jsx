@@ -1,14 +1,14 @@
 import './App.scss';
-import { HomePage, CollegesPage, ProfessorsPage, ErrorPage } from './pages'
-import { AuthenticationWindow, NavBar } from './components';
+import { HomePage, CollegesListPage, ProfessorsListPage, ErrorPage, ProfessorReviewPage } from './pages'
+import { AuthenticationWindow, NavBar, ProfessorForm } from './components';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import authFetch from './services/auth_fetch';
 
-
 function App() {
-  const [showAuthWindow, setShowAuthWindow] = useState(false); // authentication window
   const [userDetails, setUserDetails] = useState(null); // user details (id, name, email)
+  const [showAuthWindow, setShowAuthWindow] = useState(false); // authentication window
+  const [showProfessorForm, setShowProfessorForm] = useState(false);
 
   // startup functions
   useEffect(() => {
@@ -30,19 +30,21 @@ function App() {
       getUserDetails();
     }
   }
-
+  
   return (
     <div className="body">
-      <BrowserRouter>
-        <NavBar userDetails={userDetails} setUserDetails={setUserDetails} setShowAuthWindow={setShowAuthWindow} />
+      <BrowserRouter className="body-container">
+        <NavBar userDetails={userDetails} setUserDetails={setUserDetails} setShowAuthWindow={setShowAuthWindow} setShowProfessorForm={setShowProfessorForm} />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/colleges" element={<CollegesPage />} />
-          <Route path="/professors" element={<ProfessorsPage />} />
+          <Route path="/colleges" element={<CollegesListPage />} />
+          <Route path="/professors" element={<ProfessorsListPage />} />
+          <Route path="/professor/:id" element={<ProfessorReviewPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
       {showAuthWindow && <AuthenticationWindow closeWindow={closeAuthWindow} />}
+      {showProfessorForm && <ProfessorForm closeForm={()=> setShowProfessorForm(false)} />}
     </div>
   )
 }

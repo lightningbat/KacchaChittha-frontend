@@ -124,4 +124,41 @@
             }
         }
     }
+
+
+    .footer-msg {
+        margin: 0 auto;
+        margin-top: 10rem;
+
+        img {
+            height: clamp(10rem, 30vh, 30rem);
+            display: block;
+            margin: 0 auto;
+            animation: opacity-change 5s infinite;
+        }
+
+        @keyframes opacity-change {
+            0%, 5% {
+                opacity: 0;
+            }
+
+            25%, 75% {
+                opacity: 1;
+            }
+
+            95%, 100% {
+                opacity: 0;
+            }
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+            background-color: #94db94;
+            color: white;
+            padding: 0.5rem 0;
+            width: 100%;
+        }
+    }
 }

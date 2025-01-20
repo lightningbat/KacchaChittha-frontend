@@ -33,6 +33,7 @@ const InputBox = forwardRef((props, ref) => {
                     minLength={props.minLength} 
                     maxLength={props.maxLength}
                     title={props.title}
+                    inputMode={props.input_type === "password" ? "verbatim" : "text"}
                     ref={ref} 
                     required />
                 {props.input_type === "password" && <div className="eye-icon" onClick={() => setShowPassword(!showPassword)}>

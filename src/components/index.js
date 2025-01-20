@@ -4,6 +4,7 @@ import CollegeCard from "./college_card";
 import ProfessorCard from "./professor_card";
 import OutsideClickDetector from "./outside_click_detector";
 import NavBar from "./nav_bar";
+import ProfessorForm from "./professor_form";
 
 export {
     SearchBox,
@@ -11,5 +12,6 @@ export {
     CollegeCard,
     ProfessorCard,
     OutsideClickDetector,
-    NavBar
+    NavBar,
+    ProfessorForm
 }

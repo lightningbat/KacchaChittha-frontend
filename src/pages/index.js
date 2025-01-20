@@ -1,11 +1,13 @@
 import HomePage from "./home";
-import CollegesPage from "./colleges";
-import ProfessorsPage from "./professors";
+import CollegesListPage from "./colleges_list";
+import ProfessorsListPage from "./professors_list";
 import ErrorPage from "./error_page";
+import ProfessorReviewPage from "./professor_review";
 
 export {
     HomePage,
-    CollegesPage,
-    ProfessorsPage,
-    ErrorPage
+    CollegesListPage,
+    ProfessorsListPage,
+    ErrorPage,
+    ProfessorReviewPage
 }

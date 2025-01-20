@@ -3,10 +3,28 @@ import prof_snape from '../../assets/media/prof_snape.png';
 import { SearchBox } from '../../components';
 import { CollegeCard, ProfessorCard } from '../../components';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import footer_img_1 from '../../assets/media/footer_img_1.png';
+import footer_img_2 from '../../assets/media/footer_img_2.png';
 
 export default function HomePage() {
     const [activeTab, setActiveTab] = useState("colleges");
+
+    const images = [footer_img_1, footer_img_2];
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setActiveImageIndex((prevIndex) =>
+                (prevIndex + 1) % images.length // Cycle through images
+            );
+        }, 5000); // Change image every 2 seconds
+
+        return () => clearInterval(intervalId); // Cleanup on component unmount
+    }, [images.length]);
+
+
     const updateActiveTab = (tab) => {
         setActiveTab(tab);
     }
@@ -29,7 +47,7 @@ export default function HomePage() {
                 </div>
             </section>
             <section className='featured-section'>
-                <div style={{width: "clamp(20rem, 80%, 50rem)"}}><SearchBox /></div>
+                <div style={{ width: "clamp(20rem, 80%, 50rem)" }}><SearchBox /></div>
 
                 <div className="featured-tabs">
                     <div className="featured-tab-btns no-select">
@@ -57,7 +75,10 @@ export default function HomePage() {
 
                 </div>
             </section>
-            <footer style={{ marginTop: "2rem"}}></footer>
+            <div className="footer-msg">
+                <img src={images[activeImageIndex]} alt="" />
+                <p>© 2023 Kaccha Chittha</p>
+            </div>
         </div>
     );
 }
