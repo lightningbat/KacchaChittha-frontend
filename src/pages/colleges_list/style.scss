@@ -1,6 +1,8 @@
 .colleges-page {
     padding: 5rem 0;
     text-align: center;
+    height: 100vh;
+    overflow: auto;
 
     @media screen and (max-width: 400px) {
         padding-top: 8rem;
@@ -18,6 +20,12 @@
         margin-top: 5rem;
         width: clamp(20rem, 80%, 60rem);
         margin-inline: auto;
+
+        .search-msg {
+            margin-top: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
     }
 
     .list-container {
