@@ -1,5 +1,5 @@
 import './App.scss';
-import { HomePage, CollegesListPage, ProfessorsListPage, ErrorPage, ProfessorReviewPage } from './pages'
+import { HomePage, CollegesListPage, ProfessorsListPage, ErrorPage, ProfessorReviewPage, DepartmentsPage } from './pages'
 import { AuthenticationWindow, NavBar, ProfessorForm } from './components';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -40,6 +40,7 @@ function App() {
           <Route path="/colleges" element={<CollegesListPage />} />
           <Route path="/professors" element={<ProfessorsListPage />} />
           <Route path="/professor/:id" element={<ProfessorReviewPage />} />
+          <Route path="/college/:id/departments" element={<DepartmentsPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

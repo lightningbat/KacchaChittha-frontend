@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 CollegeCard.propTypes = {
     img: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
+    onClick: PropTypes.func
 }
-export default function CollegeCard({ img, name }) {
+export default function CollegeCard({ img, name, onClick }) {
     return (
-        <div className="college-card-global">
+        <div className="college-card-global" onClick={onClick}>
             <div className="img-container">
                 {img && <img className="college-img" src={img} alt="" />}
             </div>

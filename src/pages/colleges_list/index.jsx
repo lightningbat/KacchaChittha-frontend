@@ -2,10 +2,12 @@ import './style.scss'
 import { SearchBox, CollegeCard } from '../../components'
 import { useEffect, useRef, useState } from 'react'
 import useCustomDialog from '../../custom/dialogs';
+import { useNavigate } from 'react-router-dom';
 
 let cached_data = [];
 
 export default function CollegesListPage() {
+    const navigate = useNavigate();
     const customDialogs = useCustomDialog();
     const [collegesList, setCollegesList] = useState([]);
     const search_box_ref = useRef();
@@ -140,7 +142,7 @@ export default function CollegesListPage() {
             <div className="list-container">
                 {
                     collegesList.map((item) => (
-                        <CollegeCard name={item.name} img={item.img} key={item.id} />
+                        <CollegeCard name={item.name} img={item.img} key={item.id} onClick={() => navigate(`/college/${item.id}/departments`)} />
                     ))
                 }
             </div>
