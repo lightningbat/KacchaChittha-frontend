@@ -3,8 +3,7 @@ import { SearchBox, CollegeCard } from '../../components'
 import { useEffect, useRef, useState } from 'react'
 import useCustomDialog from '../../custom/dialogs';
 import { useNavigate } from 'react-router-dom';
-
-let cached_data = [];
+import { colleges_list_cache } from '../../utils/cache';
 
 export default function CollegesListPage() {
     const navigate = useNavigate();
@@ -29,8 +28,8 @@ export default function CollegesListPage() {
 
         // getting colleges list
         (async () => {
-            if (cached_data.length && !collegesList.length) {
-                setCollegesList(cached_data);
+            if (colleges_list_cache.length && !collegesList.length) {
+                setCollegesList(colleges_list_cache);
                 return;
             }
             // getting colleges list from api
@@ -42,7 +41,12 @@ export default function CollegesListPage() {
                 if (response.ok) {
                     const data = await response.json();
                     setCollegesList(data);
-                    cached_data = data;
+                    // emptying cached data
+                    colleges_list_cache.length = 0;
+                    // sorting data by name
+                    data.sort((a, b) => a.name.localeCompare(b.name));
+                    // adding new data to cached data
+                    colleges_list_cache.push(...data);
                 } else {
                     customDialogs({
                         type: "alert",
@@ -74,7 +78,7 @@ export default function CollegesListPage() {
             
             if (user_input == "") setSearchMsg("");
 
-            const search_result = cached_data.filter((item) => item.name.toLowerCase().includes(user_input.toLowerCase()));
+            const search_result = colleges_list_cache.filter((item) => item.name.toLowerCase().includes(user_input.toLowerCase()));
             if (search_result.length && user_input != "") {
                 setSearchMsg("Hit Enter to look in the Database");
             }
@@ -107,8 +111,8 @@ export default function CollegesListPage() {
                     // adding new data to cached data (if not present)
                     if (data.length) {
                         data.forEach((item) => {
-                            if (!cached_data.find((cached_item) => cached_item.id === item.id)) {
-                                cached_data.push(item);
+                            if (!colleges_list_cache.find((cached_item) => cached_item.id === item.id)) {
+                                colleges_list_cache.push(item);
                             }
                         })
                     }

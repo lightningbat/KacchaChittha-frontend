@@ -2,8 +2,11 @@ import './style.scss'
 import { useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react';
 import { SearchBox } from '../../components';
+import { college_departments_cache } from '../../utils/cache';
 
-const cached_data = {};
+// if user directly goes to this page
+// than college name will be cached (since it is done in CollegesListPage)
+const colleges_name_cache = {} // Format: { college_id: name }
 
 export default function DepartmentsPage() {
     const { id: college_id } = useParams();
@@ -15,12 +18,14 @@ export default function DepartmentsPage() {
     // fetching data
     useEffect(() => {
         (async () => {
-            // checking if data is already cached
-            if (cached_data[college_id]) {
-                setCollegeName(cached_data[college_id].name);
-                setDepartments(cached_data[college_id].departments);
+            // checking if departments data is already cached
+            if (college_departments_cache.has(college_id)) {
+                // getting college name from colleges_name_cache
+                const college_name = colleges_name_cache[college_id];
+                setCollegeName(college_name);
+                setDepartments(college_departments_cache.get(college_id));
 
-                if (cached_data[college_id].departments.length > 1) setShowSearchBox(true);
+                if (college_departments_cache.get(college_id).length > 1) setShowSearchBox(true);
                 return;
             }
 
@@ -29,14 +34,17 @@ export default function DepartmentsPage() {
             });
 
             if (response.ok) {
-                const data = await response.json();
+                const data = await response.json(); // Format: [{ name, departments }]
                 setCollegeName(data.name);
                 setDepartments(data.departments);
 
+                // adding college name to colleges_name_cache
+                colleges_name_cache[college_id] = data.name;
+                // showing search box if more than 1 department
                 if (data.departments.length > 1) setShowSearchBox(true);
                 // adding new data to cached data
-                if (!cached_data[college_id]) {
-                    cached_data[college_id] = data;
+                if (!college_departments_cache.has(college_id)) {
+                    college_departments_cache.set(college_id, data.departments);
                 }
             }
             else {
