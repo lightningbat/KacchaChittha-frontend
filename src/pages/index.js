@@ -4,6 +4,7 @@ import ProfessorsListPage from "./professors_list";
 import ErrorPage from "./error_page";
 import ProfessorReviewPage from "./professor_review";
 import DepartmentsPage from "./college_departments";
+import CollegeProfessorsPage from "./college_professors";
 
 export {
     HomePage,
@@ -11,5 +12,6 @@ export {
     ProfessorsListPage,
     ErrorPage,
     ProfessorReviewPage,
-    DepartmentsPage
+    DepartmentsPage,
+    CollegeProfessorsPage,
 }

@@ -1,5 +1,10 @@
 .home-page {
-    margin-top: 5rem;
+    padding-top: 5rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
 
     @media screen and (max-width: 400px) {
         margin-top: 8rem;
@@ -85,7 +90,7 @@
 
             .featured-tab-btns {
                 display: flex;
-                gap: 3rem;
+                gap: clamp(0.5rem, 10%, 3rem);
                 border-bottom: 1px solid rgba(0, 0, 0, 0.452);
                 padding: 0 3rem;
 
@@ -127,28 +132,14 @@
 
 
     .footer-msg {
-        margin: 0 auto;
+        width: 100%;
         margin-top: 10rem;
 
         img {
-            height: clamp(10rem, 30vh, 30rem);
+            width: clamp(5rem, 80%, 25rem);
             display: block;
             margin: 0 auto;
             animation: opacity-change 5s infinite;
-        }
-
-        @keyframes opacity-change {
-            0%, 5% {
-                opacity: 0;
-            }
-
-            25%, 75% {
-                opacity: 1;
-            }
-
-            95%, 100% {
-                opacity: 0;
-            }
         }
 
         p {

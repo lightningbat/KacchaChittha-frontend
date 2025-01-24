@@ -3,27 +3,12 @@ import prof_snape from '../../assets/media/prof_snape.png';
 import { SearchBox } from '../../components';
 import { CollegeCard, ProfessorCard } from '../../components';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import footer_img_1 from '../../assets/media/footer_img_1.png';
-import footer_img_2 from '../../assets/media/footer_img_2.png';
+import spidey from '../../assets/media/spidey.png';
 
 export default function HomePage() {
     const [activeTab, setActiveTab] = useState("colleges");
-
-    const images = [footer_img_1, footer_img_2];
-    const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setActiveImageIndex((prevIndex) =>
-                (prevIndex + 1) % images.length // Cycle through images
-            );
-        }, 5000); // Change image every 2 seconds
-
-        return () => clearInterval(intervalId); // Cleanup on component unmount
-    }, [images.length]);
-
 
     const updateActiveTab = (tab) => {
         setActiveTab(tab);
@@ -76,7 +61,7 @@ export default function HomePage() {
                 </div>
             </section>
             <div className="footer-msg">
-                <img src={images[activeImageIndex]} alt="" />
+                <img src={spidey} alt="" />
                 <p>© 2023 Kaccha Chittha</p>
             </div>
         </div>
