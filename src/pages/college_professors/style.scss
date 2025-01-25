@@ -1,4 +1,4 @@
-.colleges-page {
+.college-professor-page {
     padding: 5rem 0;
     text-align: center;
     height: 100vh;
@@ -18,25 +18,37 @@
         margin-top: 2rem;
         color: rgb(38, 78, 38);
         font-weight: 600;
+        padding: 0 1rem;
+    }
+
+    .department-name {
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-top: 0.5rem;
+        color: rgb(58, 58, 58);
+        word-spacing: 2px;
+        letter-spacing: 0.5px;
+        padding: 0 1rem;
     }
 
     .search-box-cont {
         margin-top: 5rem;
         width: clamp(20rem, 80%, 60rem);
         margin-inline: auto;
-
-        .search-msg {
-            margin-top: 0.5rem;
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
     }
 
     .list-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
         margin-top: 5rem;
         padding: 0 2rem;
         gap: 2rem;
+
+        .list-item {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }

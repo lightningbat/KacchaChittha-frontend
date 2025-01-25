@@ -8,6 +8,10 @@
         padding-top: 8rem;
     }
 
+    @media screen and (max-width: 245px) {
+        padding-top: 12rem;
+    }
+
     .error-page-img {
         width: 100%;
     }

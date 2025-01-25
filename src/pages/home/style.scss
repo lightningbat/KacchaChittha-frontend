@@ -7,7 +7,11 @@
     overflow: auto;
 
     @media screen and (max-width: 400px) {
-        margin-top: 8rem;
+        padding-top: 8rem;
+    }
+
+    @media screen and (max-width: 245px) {
+        padding-top: 12rem;
     }
 
     .hero-section {
