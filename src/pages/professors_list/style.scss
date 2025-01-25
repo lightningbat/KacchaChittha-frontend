@@ -6,6 +6,10 @@
         padding-top: 8rem;
     }
 
+    @media screen and (max-width: 245px) {
+        padding-top: 12rem;
+    }
+
     .page-heading {
         font-size: 2.5rem;
         font-weight: 600;
@@ -18,6 +22,12 @@
         margin-top: 5rem;
         width: clamp(20rem, 80%, 60rem);
         margin-inline: auto;
+
+        .search-msg {
+            margin-top: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }   
     }
 
     .list-container {
