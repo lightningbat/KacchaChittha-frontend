@@ -91,8 +91,6 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                     review: prof_reviews,
                     user_review: user_review
                 });
-
-                console.log(professors_review_cache.get(prof_id));
             }
             else {
                 customDialogs({
@@ -133,7 +131,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
         }
         if (!currentRating) return;
 
-        setUpdatingReview(true);
+        setUpdatingReview(true); // disabling rating box while posting review
 
         const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/post-rating`, {
             method: 'POST',
@@ -153,17 +151,13 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 is_same_college: true,
                 review: { rating: currentRating, timestamp }
             }
-
             // updating state
             setUserReview({
                 user_id,
                 is_same_college: true,
                 review: { rating: currentRating, timestamp }
             })
-            setReviewBoxToShow('display');
-
-            console.log(professors_review_cache.get(prof_id));
-
+            setReviewBoxToShow('display'); // showing display review box
             setUpdatingReview(false); // enabling rating box to make it editable
         }
         else {
@@ -171,7 +165,49 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 type: 'alert',
                 description: 'Failed to post review.'
             })
+            setUpdatingReview(false);
+        }
+    }
 
+    async function handleEditReview() {
+        const user_id = user_details_cache.get('user_id');
+        if (!user_id) return;
+
+        if (!currentRating) return;
+
+        setUpdatingReview(true); // disabling rating box while editing review
+
+        const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/update-rating`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prof_id, rating: currentRating })
+            }, "An error occurred while updating review.");
+
+        if (response && response.status === 200) {
+            const { timestamp } = await response.json();
+
+            // updating cache
+            professors_review_cache.get(prof_id).user_review.review.rating = currentRating;
+            professors_review_cache.get(prof_id).user_review.review.timestamp = timestamp;
+            // updating state
+            setUserReview({
+                ...userReview,
+                review: {
+                    rating: currentRating,
+                    timestamp
+                }
+            })
+            setReviewBoxToShow('display'); // showing display review box
+            setUpdatingReview(false); // enabling rating box to make it editable
+        }
+        else {
+            customDialogs({
+                type: 'alert',
+                description: 'Failed to update review.'
+            })
             setUpdatingReview(false);
         }
     }
@@ -182,13 +218,9 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
             title: 'Delete Review?',
             description: 'Are you sure you want to delete your review?'
         })
+        if (!user_confirm) return;
 
-        if (user_confirm) {
-            customDialogs({
-                type: 'alert',
-                description: 'Review deleted successfully.'
-            })
-        }
+        setUpdatingReview(true); // disabling rating box while deleting review
     }
 
     return (
@@ -333,7 +365,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                         </div>
                         <div className="btns-cont">
                             <button disabled={updatingReview} className="cancel" onClick={() => setReviewBoxToShow('display')}>Cancel</button>
-                            <button disabled={updatingReview} className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button>
+                            <button disabled={updatingReview} onClick={handleEditReview} className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button>
                         </div>
                     </div>
                 </div>
