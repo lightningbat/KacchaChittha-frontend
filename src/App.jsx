@@ -46,7 +46,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/colleges" element={<CollegesListPage />} />
           <Route path="/professors" element={<ProfessorsListPage />} />
-          <Route path="/professor/:id" element={<ProfessorReviewPage />} />
+          <Route path="/professor/:id" element={<ProfessorReviewPage showAuthenticationWindow={() => setShowAuthWindow(true)} />} />
           <Route path="/college/:id/departments" element={<DepartmentsPage />} />
           <Route path="/college/:id/:department/professors" element={<CollegeProfessorsPage />} />
           <Route path="*" element={<ErrorPage />} />

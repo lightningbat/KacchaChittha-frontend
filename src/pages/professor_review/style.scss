@@ -1,0 +1,336 @@
+.professor-review-page {
+    padding: 5rem 0;
+    padding-bottom: 4rem !important;
+    height: 100vh;
+    overflow: auto;
+
+    @media screen and (max-width: 400px) {
+        padding-top: 8rem;
+    }
+
+    @media screen and (max-width: 245px) {
+        padding-top: 12rem;
+    }
+
+    .main-content {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        column-gap: 2rem;
+        row-gap: 4rem;
+        flex-wrap: wrap;
+        background-color: white;
+        width: 95%;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 1rem;
+
+        .prof-details {
+            display: flex;
+            gap: 1rem;
+
+            @media screen and (max-width: 400px) {
+                flex-direction: column;
+            }
+
+            .image {
+                flex-shrink: 0;
+                width: 15rem;
+                height: 15rem;
+                border-radius: 50%;
+                overflow: hidden;
+                background-color: rgb(230, 230, 230);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .info {
+                .name {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                    padding-left: 0.5rem;
+                }
+
+                .college {
+                    background-color: rgb(236, 236, 236);
+                    width: fit-content;
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 20px;
+                    font-size: 1.4rem;
+                    font-weight: 400;
+                    margin-bottom: 1rem;
+                }
+
+                .department {
+                    background-color: rgb(236, 236, 236);
+                    width: fit-content;
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 20px;
+                    font-size: 1.2rem;
+                    font-weight: 400;
+                }
+
+                .description {
+                    margin-top: 1rem;
+                    font-size: 1.3rem;
+                    font-weight: 400;
+                    padding-left: 0.5rem;
+                    max-width: 30rem;
+                }
+            }
+        }
+
+        .reviews {
+            display: flex;
+            gap: 3rem;
+
+            .progress-bar {
+                flex: 1;
+                width: 15rem;
+                max-width: 50vw;
+                height: 1.7rem;
+                background-color: rgb(245, 245, 245);
+                border-radius: 5px;
+                border: 1px solid rgba(0, 0, 0, 0.212);
+
+                .progress-bar-fill {
+                    height: 100%;
+                    background-color: #AFE1AF;
+                    max-width: 100%;
+                }
+            }
+
+            @media screen and (max-width: 460px) {
+                flex-direction: column;
+            }
+
+            .overall-rating {
+                display: block;
+
+                .rating-container {
+                    display: flex;
+                    align-items: start;
+                    gap: 1rem;
+                    color: rgb(75, 75, 75);
+                    font-weight: 500;
+                    font-size: 1.5rem;
+
+                    .rating {
+                        font-size: 7rem;
+                        line-height: 0.7;
+                        font-weight: 700;
+                    }
+
+                    .slash {
+                        flex-shrink: 0;
+                    }
+                }
+
+                .rating-description {
+                    margin-top: 1.5rem;
+                    font-size: 1.3rem;
+                    font-weight: 400;
+                }
+            }
+
+            .distributed-rating {
+                border: 1px solid rgba(0, 0, 0, 0.212);
+                padding: 1rem 2rem;
+                border-radius: 5px;
+
+                .title {
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                    margin-bottom: 2rem;
+                }
+
+                .left-right {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    margin-top: 2rem;
+
+                    .label-title {
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                    }
+
+                    .count {
+                        font-size: 1.2rem;
+                        font-weight: 400;
+                    }
+
+                    progress {
+                        // increasing the height of the progress bar
+                        height: 1.5rem;
+                        width: 100%;
+                        border-radius: 20px;
+                    }
+                }
+            }
+        }
+
+        .no-review-yet {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-right: clamp(0rem, 2%, 5rem);
+            gap: 1rem;
+
+            svg {
+                width: 7rem;
+                height: 7rem;
+                fill: #353535;
+            }
+            p {
+                font-size: 2rem;
+                font-weight: 500;
+                color: #353535;
+            }
+        }
+    }
+
+    .user-review {
+        width: 95%;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: white;
+
+        .left-right {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .rating-stars {
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .star-cont {
+                    padding: 0.5rem;
+                    cursor: pointer;
+
+                    svg {
+                        width: 2rem;
+                        height: 2rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .user-review.un-posted {
+        h5 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #353535;
+            margin-bottom: 1rem;
+        }
+
+        button.post {
+            padding: 1rem 3rem;
+            letter-spacing: 0.2px;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.171);
+            background-color: rgb(184, 184, 184);
+            color: white;
+            font-weight: 600;
+            cursor: not-allowed;
+
+            &.active {
+                background-color: #77c277;
+                border-color: transparent;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .user-review.posted {
+        .time-display {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #353535;
+            margin-bottom: 1rem;
+        }
+        .star-cont {
+            cursor: default !important;
+        }
+        .popup {
+            position: relative;
+
+            .popup-btn {
+                height: 3rem;
+                width: 2rem;
+                padding: 0.1rem;
+                cursor: pointer;
+            }
+
+            .popup-menu {
+                background-color: rgb(253, 253, 253);
+                box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.151);
+                border-radius: 5px;
+                overflow: hidden;
+                width: 9.5rem;
+
+                button {
+                    padding: 1rem 2rem;
+                    border: none;
+                    width: 100%;
+                    text-align: start;
+                    font-size: 1.5rem;
+                    color: rgb(73, 73, 73);
+                    background-color: transparent;
+                    font-weight: 500;
+                    cursor: pointer;
+
+                    &.edit {
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+                    }
+                }
+            }
+        }
+    }
+    
+    .user-review.edit {
+        .btns-cont {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: space-between;
+
+            button {
+                padding: 0.7rem 2rem;
+                letter-spacing: 0.2px;
+                font-size: 1.5rem;
+                border-radius: 0.5rem;
+                border-color: transparent;
+                background-color: rgb(70, 70, 70);
+                color: white;
+                font-weight: 500;
+                cursor: pointer;
+                
+                &.save {
+                    background-color: #cacaca;
+                    border: 1px solid rgba(0, 0, 0, 0.171);
+                    cursor: not-allowed;
+
+                    &.active {
+                        background-color: #77c277;
+                        border-color: transparent;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}

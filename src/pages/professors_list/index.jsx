@@ -35,7 +35,6 @@ export default function ProfessorsListPage() {
             });
             if (response.status === 200) {
                 const response_data = await response.json();
-                console.log(response_data);
 
                 // Storing professors list in cache
                 // 1st clearing the cache to avoid duplicates
