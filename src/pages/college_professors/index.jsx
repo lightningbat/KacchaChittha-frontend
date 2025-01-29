@@ -1,5 +1,5 @@
 import './style.scss';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { college_professors_cache } from '../../utils/cache';
 import { ProfessorCard, SearchBox } from '../../components';
@@ -8,15 +8,9 @@ const college_name_cache = {}; // Format: { college_id: name }
 
 export default function CollegeProfessorsPage() {
     const { id: college_id, department } = useParams();
+    const navigate = useNavigate();
     const [collegeName, setCollegeName] = useState("Loading...")
-    const [professorsList, setProfessorsList] = useState([]); //useState([
-    //     {prof_id: "sadkfosdafnsda", name: "Ritu Raj", rating: 4.5},
-    //     {prof_id: "sadkfosdafnsdg", name: "Amit Kumar", rating: 3.5},
-    //     {prof_id: "sdafgsdahghfgs", name: "Rahul Kumar", rating: 2.8},
-    //     {prof_id: "oiidajsfosadfg", name: "Siddharth Singh", rating: 4.9},
-    //     {prof_id: "oifhsdancocvki", name: "Ravindra Pratap Singh", rating: 4.7},
-    //     {prof_id: "lkmkoqwdnwokfj", name: "Shivam Kumar", rating: 0.6},
-    // ]);
+    const [professorsList, setProfessorsList] = useState([]);
     const search_box_ref = useRef(null);
 
     // fetching data
@@ -81,7 +75,7 @@ export default function CollegeProfessorsPage() {
             <div className="search-box-cont"><SearchBox placeholder="Search professors" ref={search_box_ref} /></div>
             <div className="list-container">
                 {professorsList.map((professor) => (
-                    <div className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
+                    <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
                 ))}
             </div>
         </div>

@@ -139,7 +139,7 @@ export default function ProfessorsListPage() {
             </div>
             <div className="list-container">
                 {professors.map((professor) => (
-                    <div className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
+                    <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
                 ))}
             </div>
         </div>

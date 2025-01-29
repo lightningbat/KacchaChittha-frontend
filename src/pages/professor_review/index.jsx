@@ -3,7 +3,7 @@ import './style.scss'
 import { useParams } from 'react-router-dom'
 import { OutsideClickDetector } from '../../components'
 import useCustomDialog from '../../custom/dialogs'
-import { user_details_cache } from '../../utils/cache'
+import { user_details_cache, professors_review_cache } from '../../utils/cache'
 import PropTypes from 'prop-types'
 
 ProfessorReviewPage.propTypes = {
@@ -19,59 +19,91 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
     const [reviewBoxToShow, setReviewBoxToShow] = useState(null); // to manage review box state (write / display)
     const posted_review_menubtn_ref = useRef(null);
     const [showPostedReviewMenu, setShowPostedReviewMenu] = useState(false);
+    const [updatingReview, setUpdatingReview] = useState(false); // disable rating box while posting/editing review
+
+    const fetchWrapper = async (url, options, err_msg) => {
+        try {
+            const response = await fetch(url, options);
+            return response;
+        } catch (error) {
+            console.error(error);
+            customDialogs({
+                type: 'alert',
+                message: err_msg || 'Something went wrong. Please try again later.'
+            })
+            return null;
+        }
+    }
 
     // fetching professor and review data
     useEffect(() => {
         (async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/get-professor/${prof_id}`, {
-                    method: 'GET',
-                    credentials: 'include'
+            // loading data from cache (if available)
+            if (professors_review_cache.has(prof_id)) {
+                const data = professors_review_cache.get(prof_id);
+                setDetails(data.details);
+                setReview(data.review);
+                setUserReview(data.user_review);
+                return;
+            }
+
+            const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/get-professor/${prof_id}`, {
+                method: 'GET',
+                credentials: 'include'
+            },
+                "An error occurred while fetching professor details"
+            );
+            if (response && response.status === 200) {
+                const data = await response.json();
+
+                // calculating overall rating and total ratings count
+                const totalRatings = Object.values(data.distributed_ratings).reduce((total, value) => total + value, 0);
+                const overallRating = Object.entries(data.distributed_ratings).reduce((total, [key, value]) => total + parseFloat(key) * value, 0) / totalRatings;
+
+                // organizing data
+                const prof_details = {
+                    name: `${data.first_name} ${data.last_name}`,
+                    image: data.image,
+                    description: data.description,
+                    department: data.department,
+                    college_name: data.college_name,
+                    college_id: data.college_id
+                }
+                const prof_reviews = {
+                    total_ratings: totalRatings,
+                    overall_rating: overallRating.toFixed(1),
+                    distributed_ratings: data.distributed_ratings
+                }
+                const user_review = data.user ? {
+                    user_id: data.user.user_id,
+                    is_same_college: data.user.is_same_college,
+                    review: data.user.review
+                } : null
+
+                // setting state
+                setDetails(prof_details)
+                setReview(prof_reviews)
+                setUserReview(user_review)
+
+                // storing data in cache
+                professors_review_cache.set(prof_id, {
+                    details: prof_details,
+                    review: prof_reviews,
+                    user_review: user_review
                 });
-                if (response.status === 200) {
-                    const data = await response.json();
 
-                    setDetails({
-                        image: data.image,
-                        name: `${data.first_name} ${data.last_name}`,
-                        description: data.description,
-                        college_name: data.college_name,
-                        department: data.department
-                    })
-
-                    const totalRatings = Object.values(data.distributed_ratings).reduce((total, value) => total + value, 0);
-                    const overallRating = Object.entries(data.distributed_ratings).reduce((total, [key, value]) => total + parseFloat(key) * value, 0) / totalRatings;
-
-                    setReview({
-                        total_ratings: totalRatings,
-                        overall_rating: overallRating.toFixed(1),
-                        distributed_ratings: data.distributed_ratings,
-                    })
-
-                    setUserReview({
-                        user_id: data.user?.user_id,
-                        is_same_college: data.user?.is_same_college,
-                        review: data.user?.review
-                    })
-
-                }
-                else {
-                    customDialogs({
-                        type: 'alert',
-                        description: 'Failed to fetch professor data.'
-                    })
-                }
-            } catch (error) {
-                console.error(error);
+                console.log(professors_review_cache.get(prof_id));
+            }
+            else {
                 customDialogs({
                     type: 'alert',
-                    description: 'An error occurred while fetching professor data.'
+                    description: 'Failed to fetch professor data.'
                 })
             }
         })()
     }, [])
 
-    // managing which review box to show (write or display)
+    // managing which review box to show (post / display) after data fetched
     useEffect(() => {
         if (!userReview) return;
         if (userReview?.review) {
@@ -82,11 +114,65 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
         }
     }, [userReview])
 
+    // manage client side rating stars state
     function handleRatingChange(rating) {
+        if (updatingReview) return;
         if (rating === currentRating) {
             setCurrentRating(0);
         } else {
             setCurrentRating(rating);
+        }
+    }
+
+
+    async function handlePostReview() {
+        const user_id = user_details_cache.get('user_id');
+        if (!user_id) {
+            showAuthenticationWindow();
+            return;
+        }
+        if (!currentRating) return;
+
+        setUpdatingReview(true);
+
+        const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/post-rating`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prof_id, rating: currentRating })
+        }, "An error occurred while posting review.");
+
+        if (response && response.status === 201) {
+            const { timestamp } = await response.json();
+
+            // updating cache
+            professors_review_cache.get(prof_id).user_review = {
+                user_id,
+                is_same_college: true,
+                review: { rating: currentRating, timestamp }
+            }
+
+            // updating state
+            setUserReview({
+                user_id,
+                is_same_college: true,
+                review: { rating: currentRating, timestamp }
+            })
+            setReviewBoxToShow('display');
+
+            console.log(professors_review_cache.get(prof_id));
+
+            setUpdatingReview(false); // enabling rating box to make it editable
+        }
+        else {
+            customDialogs({
+                type: 'alert',
+                description: 'Failed to post review.'
+            })
+
+            setUpdatingReview(false);
         }
     }
 
@@ -102,12 +188,6 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 type: 'alert',
                 description: 'Review deleted successfully.'
             })
-        }
-    }
-
-    async function handlePostReview() {
-        if (!user_details_cache.get('user_id')) {
-            showAuthenticationWindow();
         }
     }
 
@@ -194,7 +274,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                                 </div>
                             ))}
                         </div>
-                        <button className={`post ${currentRating ? "active" : ""}`} onClick={handlePostReview}>Post</button>
+                        <button disabled={updatingReview} className={`post ${currentRating ? "active" : ""}`} onClick={handlePostReview}>Post</button>
                     </div>
                 </div>
             }
@@ -252,8 +332,8 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                             ))}
                         </div>
                         <div className="btns-cont">
-                            <button className="cancel" onClick={() => setReviewBoxToShow('display')}>Cancel</button>
-                            <button className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button>
+                            <button disabled={updatingReview} className="cancel" onClick={() => setReviewBoxToShow('display')}>Cancel</button>
+                            <button disabled={updatingReview} className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button>
                         </div>
                     </div>
                 </div>
