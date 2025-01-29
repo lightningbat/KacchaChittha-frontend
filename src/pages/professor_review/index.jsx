@@ -171,7 +171,10 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
 
     async function handleEditReview() {
         const user_id = user_details_cache.get('user_id');
-        if (!user_id) return;
+        if (!user_id){
+            showAuthenticationWindow();
+            return;
+        }
 
         if (!currentRating) return;
 
@@ -213,6 +216,11 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
     }
 
     async function deleteReview() {
+        setShowPostedReviewMenu(false); // closing menu
+        if (!user_details_cache.get('user_id')) {
+            showAuthenticationWindow();
+            return;
+        }
         const user_confirm = await customDialogs({
             type: 'confirm',
             title: 'Delete Review?',
@@ -221,6 +229,32 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
         if (!user_confirm) return;
 
         setUpdatingReview(true); // disabling rating box while deleting review
+
+        const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/delete-rating`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prof_id })
+            }, "An error occurred while deleting review.");
+
+        if (response && response.status === 200) {
+            // updating cache
+            professors_review_cache.get(prof_id).user_review.review = null;
+            // updating state
+            setUserReview({ ...userReview, review: null });
+            setCurrentRating(0);
+            setReviewBoxToShow('write'); // showing write review box
+            setUpdatingReview(false); // enabling rating box to make it editable
+        }
+        else {
+            customDialogs({
+                type: 'alert',
+                description: 'Failed to delete review.'
+            })
+            setUpdatingReview(false);
+        }
     }
 
     return (
