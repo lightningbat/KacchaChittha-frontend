@@ -5,10 +5,10 @@ import RatingStars from './rating_stars';
 ProfessorCard.propTypes = {
     img: PropTypes.string,
     name: PropTypes.string,
-    college: PropTypes.string,
+    college_name: PropTypes.string,
     rating: PropTypes.number
 }
-export default function ProfessorCard({ img, name, college, rating=0.5 }) {
+export default function ProfessorCard({ img, name, college_name, rating=0.5 }) {
 
     // Styling background image
     const clrs = ["rgb(204, 235, 233)", "rgb(204, 235, 206)", "rgb(204, 223, 235)", "rgb(235, 204, 234)", "rgb(235, 204, 204)"];
@@ -21,9 +21,10 @@ export default function ProfessorCard({ img, name, college, rating=0.5 }) {
                 {img && <img src={img} alt="" />}
             </div>
             <h3 className='name'>{name ? name : "Professor Name"}</h3>
-            { college && <p className='college-name'>{college}</p>}
+            { college_name && <p className='college-name'>{college_name}</p>}
             <div className="rating">{rating}
-                <RatingStars rating={rating} />
+                {rating && rating > 0 && <RatingStars rating={rating} />}
+                {(!rating || rating === 0) && <p className='no-rating'>No Rating</p>}
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 .professor-card-global {    
-    padding: 2rem 5rem;
+    padding: 2rem;
     width: 20rem;
     display: flex;
     flex-direction: column;
@@ -38,13 +38,13 @@
 
     h3.name {
         font-size: 1.7rem;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 1.1;
     }
 
     p.college-name {
         font-size: 1.4rem;
-        font-weight: 300;
+        font-weight: 400;
     }
 
     .rating {
@@ -55,5 +55,11 @@
         padding: 0.5rem 1rem;
         border-radius: 5rem;
         font-size: 1.5rem;
+
+        .no-rating {
+            color: rgb(66, 66, 66);
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
     }
 }
