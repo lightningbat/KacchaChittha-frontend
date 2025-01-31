@@ -1,0 +1,26 @@
+.professor-review-page .user-review.write {
+    h5 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: #353535;
+        margin-bottom: 1rem;
+    }
+
+    button.post {
+        padding: 1rem 3rem;
+        letter-spacing: 0.2px;
+        font-size: 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.171);
+        background-color: rgb(184, 184, 184);
+        color: white;
+        font-weight: 600;
+        cursor: not-allowed;
+
+        &.active {
+            background-color: #77c277;
+            border-color: transparent;
+            cursor: pointer;
+        }
+    }
+}

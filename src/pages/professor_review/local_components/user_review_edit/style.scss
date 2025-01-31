@@ -1,0 +1,32 @@
+.professor-review-page .user-review.edit {
+    .btns-cont {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+
+        button {
+            padding: 0.7rem 2rem;
+            letter-spacing: 0.2px;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            border-color: transparent;
+            background-color: rgb(70, 70, 70);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+
+            &.save {
+                background-color: #cacaca;
+                border: 1px solid rgba(0, 0, 0, 0.171);
+                cursor: not-allowed;
+
+                &.active {
+                    background-color: #77c277;
+                    border-color: transparent;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
