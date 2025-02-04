@@ -1,0 +1,110 @@
+.comment-section {
+    width: 95%;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: white;
+
+    .section-title {
+        font-size: 1.7rem;
+        font-weight: 500;
+        color: #1b1b1b;
+        margin-bottom: 2rem;
+
+        .total-count {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-left: 0.7rem;
+        }
+    }
+
+    form {
+        .comment-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+
+            input {
+                width: 100%;
+                flex: 1;
+                border: 1px solid rgba(0, 0, 0, 0.212);
+                border-radius: 0.5rem;
+                padding: 1rem;
+                font-size: 1.5rem;
+                font-weight: 400;
+                color: #1b1b1b;
+            }
+
+            button {
+                padding: 0.5rem 1.5rem;
+                border-radius: 0.5rem;
+                border-color: transparent;
+                background-color: rgb(70, 70, 70);
+                color: white;
+                font-weight: 500;
+                cursor: pointer;
+            }
+
+            .btn-submit {
+                svg {
+                    transform: rotate(41deg);
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+
+            .btn-cancel {
+                padding: 0.1rem 1rem;
+                svg {
+                    width: 3rem;
+                    height: 3rem;
+                }
+            }
+
+        }
+        .error-label {
+            color: rgb(255, 83, 83);
+            font-size: 1.3rem;
+            font-weight: 400;
+        }
+    }
+
+    .user-comments {
+        margin: 2rem 0;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.253);
+
+        .title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #333333;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .comment-list {
+        margin-top: 2rem;
+    }
+
+    .comment-reply {
+        margin-top: 1rem;
+
+        .back-btn {
+            width: fit-content;
+            padding: 0.5rem 1rem 0.5rem 0rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: #353535;
+            font-weight: 500;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .reply-list {
+            margin-top: 1rem;
+            margin-left: 2rem;
+        }
+    }
+}

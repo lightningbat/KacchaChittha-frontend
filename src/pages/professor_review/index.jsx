@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import useCustomDialog from '../../custom/dialogs'
 import { professors_review_cache } from '../../utils/cache'
 import PropTypes from 'prop-types'
-import { CustomProgressBar, UserReviewWrite, UserReviewDisplay, UserReviewEdit } from './local_components'
+import { CustomProgressBar, UserReviewWrite, UserReviewDisplay, UserReviewEdit, CommentSection } from './local_components'
 
 ProfessorReviewPage.propTypes = {
     showAuthenticationWindow: PropTypes.func
@@ -196,6 +196,11 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                     prof_id={prof_id}
                 />
             }
+
+            <CommentSection
+                is_same_college={userReview?.is_same_college}
+                showAuthenticationWindow={showAuthenticationWindow}
+                prof_id={prof_id} />
         </div>
     )
 }

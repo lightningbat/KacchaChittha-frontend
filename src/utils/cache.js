@@ -16,6 +16,8 @@ prof_id: {
     } 
 }}
 */
+const comments_cache = new Map(); // Format: { prof_id: [comment1, comment2, ...] }
+const replies_cache = new Map(); // Format: { comment_id: [reply1, reply2, ...] }
 
 export {
     user_details_cache,
@@ -24,4 +26,6 @@ export {
     college_departments_cache,
     college_professors_cache,
     professors_review_cache,
+    comments_cache,
+    replies_cache
 }
