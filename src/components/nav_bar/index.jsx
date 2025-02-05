@@ -5,7 +5,6 @@ import authFetch from '../../services/auth_fetch';
 import useCustomDialog from '../../custom/dialogs'
 import OutsideClickDetector from '../outside_click_detector';
 import PropTypes from 'prop-types'
-import { user_details_cache } from '../../utils/cache';
 
 import kaccha_chittha_icon from '../../assets/media/kaccha_chittha_icon.png'
 
@@ -31,7 +30,7 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
         const response = await authFetch({ route: "logout", method: "DELETE" });
         if (response.code === 200) {
             setUserDetails(null);
-            user_details_cache.clear();
+            window.location.reload();
         }
     }
 

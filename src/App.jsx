@@ -33,8 +33,8 @@ function App() {
 
   const closeAuthWindow = (get_user = false) => {
     setShowAuthWindow(false);
-    if (get_user) { // if user is logged in
-      getUserDetails();
+    if (get_user) { // if user is logged in successfully
+      window.location.reload();
     }
   }
   
