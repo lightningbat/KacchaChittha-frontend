@@ -3,9 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import CommentUI from './comment_ui';
 import { user_details_cache, comments_cache, replies_cache } from '../../../../utils/cache';
 import useCustomDialog from '../../../../custom/dialogs';
+import { Spinner } from '../../../../custom/loading_animations';
+import PropTypes from 'prop-types'
 
 const totalComments = new Map(); // Format: {prof_id: count}
 
+CommentSection.propTypes = {
+    prof_id: PropTypes.string,
+    is_same_college: PropTypes.bool,
+    showAuthenticationWindow: PropTypes.func
+}
 export default function CommentSection({ prof_id, is_same_college, showAuthenticationWindow }) {
     const customDialogs = useCustomDialog();
     const [commentCounts, setCommentCounts] = useState("Loading...");
@@ -335,16 +342,21 @@ export default function CommentSection({ prof_id, is_same_college, showAuthentic
                                 showAuthenticationWindow();
                             }
                         }} />
-                        {editCommentId?.comment_id && <button className='btn-cancel' type='button' onClick={() => {setEditCommentId({comment_id: null, parent_id: null}); setEditCommentText('');}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </button>}
-                        <button className='btn-submit' type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cursor-fill" viewBox="0 0 16 16">
-                                <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
-                            </svg>
-                        </button>
+                        {!postingComment && <> 
+                            {editCommentId?.comment_id && 
+                                <button className='btn-cancel' type='button' onClick={() => {setEditCommentId({comment_id: null, parent_id: null}); setEditCommentText('');}}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                    </svg>
+                                </button>
+                            }
+                            <button className='btn-submit' type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cursor-fill" viewBox="0 0 16 16">
+                                    <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
+                                </svg>
+                            </button>
+                        </>}
+                        {postingComment && <Spinner scale={0.5} thickness={2} />}
                     </div>
                     <p className="error-label">{inputError}</p>
                 </fieldset>

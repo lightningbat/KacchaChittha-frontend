@@ -2,8 +2,7 @@ import './style.scss'
 import InputBox from '../../local_components/input_box'
 import SubmitBtn from '../../local_components/submit_btn'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
-
+import { useEffect, useRef, useState } from 'react'
 import authFetch from '../../../../services/auth_fetch'
 
 Signup.propTypes = {
@@ -14,6 +13,41 @@ Signup.propTypes = {
 export default function Signup({ changePage, defaultValue, setUserInput }) {
     const [error, setError] = useState({ type: null, message: null });
     const [loading, setLoading] = useState(false);
+    const name_input_ref = useRef(null);
+    const email_input_ref = useRef(null);
+    const password_input_ref = useRef(null);
+    const [isFormValid, setIsFormValid] = useState(false);
+
+    const validateForm = () => {
+        const name = name_input_ref.current.value;
+        const email = email_input_ref.current.value;
+        const password = password_input_ref.current.value;
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // This regex matches a basic email format
+
+        if (emailRegex.test(email) && password.length > 0 && name.length > 0) {
+            setIsFormValid(true);
+        } else {
+            setIsFormValid(false);
+        }
+    }
+
+    // input event listeners
+    useEffect(() => {
+        const name_input = name_input_ref.current;
+        const email_input = email_input_ref.current;
+        const password_input = password_input_ref.current;
+
+        name_input.addEventListener("input", validateForm);
+        email_input.addEventListener("input", validateForm);
+        password_input.addEventListener("input", validateForm);
+
+        return () => {
+            name_input.removeEventListener("input", validateForm);
+            email_input.removeEventListener("input", validateForm);
+            password_input.removeEventListener("input", validateForm);
+        };
+    }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -44,7 +78,7 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
             <h4>Sign Up</h4>
             <form action="" onSubmit={handleSubmit}>
                 <fieldset disabled={loading}>
-                    <InputBox placeholder="Enter name" name="name" input_type="text" default_value={defaultValue?.name} error={error.type === "name" && error.message} />
+                    <InputBox placeholder="Enter name" name="name" input_type="text" default_value={defaultValue?.name} error={error.type === "name" && error.message} ref={name_input_ref} />
                     <div className="domain-info">
                         <span className="info-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-exclamation-circle" viewBox="0 0 16 16">
@@ -54,13 +88,13 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
                         </span>
                         <span className="info-short-note">Not all domains are supported</span>
                     </div>
-                    <InputBox placeholder="Enter college email Id" name="email" input_type="email" default_value={defaultValue?.email} error={error.type === "email" && error.message} />
-                    <InputBox placeholder="Enter password" name="password" input_type="password" default_value={defaultValue?.password} error={error.type === "password" && error.message} />
+                    <InputBox placeholder="Enter college email Id" name="email" input_type="email" default_value={defaultValue?.email} error={error.type === "email" && error.message} ref={email_input_ref} />
+                    <InputBox placeholder="Enter password" name="password" input_type="password" default_value={defaultValue?.password} error={error.type === "password" && error.message} ref={password_input_ref} />
                     <p className="form-error-msg">
                         {error.message && (error.type !== "name" && error.type !== "email" && error.type !== "password") && 
                         <span className="error-text">{error.message}</span>}
                     </p>
-                    <SubmitBtn />
+                    <SubmitBtn loading={loading} ready_to_submit={isFormValid} />
                 </fieldset>
             </form>
             <p className='login'>Already have an account? <span className="login-link" onClick={() => changePage("login", true)}>Login</span></p>

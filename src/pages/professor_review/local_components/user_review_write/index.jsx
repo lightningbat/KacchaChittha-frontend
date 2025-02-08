@@ -3,6 +3,7 @@ import { user_details_cache, professors_review_cache } from '../../../../utils/c
 import PropTypes from 'prop-types'
 import { useState } from 'react';
 import useCustomDialog from '../../../../custom/dialogs'
+import { Spinner } from '../../../../custom/loading_animations';
 
 UserReviewWrite.propTypes = {
     currentRating: PropTypes.number,
@@ -90,7 +91,7 @@ export default function UserReviewWrite({ currentRating, setCurrentRating, showA
                         </div>
                     ))}
                 </div>
-                <button disabled={loading} className={`post ${currentRating ? "active" : ""}`} onClick={handlePostReview}>Post</button>
+                {!loading ? <button disabled={loading} className={`post ${currentRating ? "active" : ""}`} onClick={handlePostReview}>Post</button> : <Spinner scale={0.5} thickness={2} color="#31a754" />}
             </div>
         </div>
     )

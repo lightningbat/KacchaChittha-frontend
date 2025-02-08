@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { college_professors_cache } from '../../utils/cache';
 import { ProfessorCard, SearchBox } from '../../components';
+import { ResizingBars } from '../../custom/loading_animations';
 
 const college_name_cache = {}; // Format: { college_id: name }
 
@@ -12,6 +13,7 @@ export default function CollegeProfessorsPage() {
     const [collegeName, setCollegeName] = useState("Loading...")
     const [professorsList, setProfessorsList] = useState([]);
     const search_box_ref = useRef(null);
+    const [loadingData, setLoadingData] = useState(false);
 
     // fetching data
     useEffect(() => {
@@ -22,6 +24,7 @@ export default function CollegeProfessorsPage() {
                     setProfessorsList(college_professors_cache.get(`${college_id} + ${department}`));
                     return;
                 }
+                setLoadingData(true); // showing loading animation
                 const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/get-college-prof/${college_id}/${department}`, {
                     method: 'GET',
                 });
@@ -49,6 +52,9 @@ export default function CollegeProfessorsPage() {
             } catch (error) {
                 console.error(error);
             }
+            finally {
+                setLoadingData(false);
+            }
         })()
     }, [])
 
@@ -73,11 +79,12 @@ export default function CollegeProfessorsPage() {
             <h3 className='page-heading'>Professors at {`${collegeName}`}</h3>
             <h4 className='department-name'>{department}</h4>
             <div className="search-box-cont"><SearchBox placeholder="Search professors" ref={search_box_ref} /></div>
-            <div className="list-container">
+            {!loadingData && <div className="list-container">
                 {professorsList.map((professor) => (
                     <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
                 ))}
-            </div>
+            </div>}
+            {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}
         </div>
     )
 }

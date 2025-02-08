@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 
     .content-container {
         width: clamp(20rem, 80%, 70rem);
@@ -102,7 +103,6 @@
                         padding: 0.5rem;
                         font-size: 1.3rem;
                         font-weight: 400;
-                        text-transform: capitalize;
                     }
 
                     label {

@@ -1,22 +1,20 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
-/**
- * @param {object} style - styles of the component
- * @param {function} closePopup - function to close the popup
- * @param {ref} buttonRef - (optional) reference to the call button
- * @param {children} children - content inside the component
-*/
 OutsideClickDetector.propTypes = {
     style: PropTypes.object,
     closePopup: PropTypes.func,
     buttonRef: PropTypes.object,
     children: PropTypes.node
 }
+/**
+ * @param {object} style - styles of the component
+ * @param {function} closePopup - function to close the popup
+ * @param {ref} buttonRef - (optional) reference to the call button
+ * @param {children} children - content inside the component
+*/
 export default function OutsideClickDetector(props) {
     const wrapperRef = useRef(null);
-
-    // console.log('buttonRef' in props);
 
     useEffect(() => {
         function handleClickOutside(event) {

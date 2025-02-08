@@ -1,18 +1,19 @@
 import './style.scss';
 import prof_snape from '../../assets/media/prof_snape.png';
-import { SearchBox } from '../../components';
-import { CollegeCard, ProfessorCard } from '../../components';
+// import { SearchBox } from '../../components';
+// import { CollegeCard, ProfessorCard } from '../../components';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 
 import spidey from '../../assets/media/spidey.png';
 
 export default function HomePage() {
-    const [activeTab, setActiveTab] = useState("colleges");
+    // const [activeTab, setActiveTab] = useState("colleges");
 
-    const updateActiveTab = (tab) => {
-        setActiveTab(tab);
-    }
+    // const updateActiveTab = (tab) => {
+    //     setActiveTab(tab);
+    // }
+
     return (
         <div className="home-page">
             <section className='hero-section'>
@@ -31,7 +32,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
-            <section className='featured-section'>
+            {/* <section className='featured-section'>
                 <div style={{ width: "clamp(20rem, 80%, 50rem)" }}><SearchBox /></div>
 
                 <div className="featured-tabs">
@@ -59,10 +60,10 @@ export default function HomePage() {
                     </div>
 
                 </div>
-            </section>
+            </section> */}
             <div className="footer-msg">
                 <img src={spidey} alt="" />
-                <p>© 2023 Kaccha Chittha</p>
+                <p>© 2025 Kaccha Chittha</p>
             </div>
         </div>
     );

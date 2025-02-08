@@ -2,7 +2,7 @@ import './style.scss'
 import InputBox from '../../local_components/input_box'
 import SubmitBtn from '../../local_components/submit_btn'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import authFetch from '../../../../services/auth_fetch'
 
 Otp.propTypes = {
@@ -15,6 +15,27 @@ export default function Otp({ changePage, redirected_from, user_email, closeWind
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ type: null, message: null });
     const [counter, setCounter] = useState(60);
+    const otp_input_ref = useRef(null);
+    const [isFormValid, setIsFormValid] = useState(false);
+
+    const validateForm = () => {
+        const otp = otp_input_ref.current.value;
+        if (otp.length >= 4) {
+            setIsFormValid(true);
+        }
+        else {
+            setIsFormValid(false);
+        }
+    }
+
+    useEffect(() => {
+        const otp_input = otp_input_ref.current;
+        otp_input.addEventListener("input", validateForm);
+        return () => {
+            otp_input.removeEventListener("input", validateForm);
+        }
+    }, []);
+
 
     useEffect(() => {
         if (counter > 0) {
@@ -65,7 +86,7 @@ export default function Otp({ changePage, redirected_from, user_email, closeWind
             <p className='user-email'>{user_email}</p>
             <form action="" onSubmit={handleSubmit}>
                 <fieldset disabled={loading}>
-                    <InputBox placeholder="Enter OTP" input_type="text" name="otp" error={error.type === "otp" && error.message} />
+                    <InputBox placeholder="Enter OTP" input_type="text" name="otp" error={error.type === "otp" && error.message} ref={otp_input_ref} />
                     <p className="resent-otp-label">Didn&#39;t receive OTP?</p>
                     <p className="trash-folder-mention">Did you check your email&apos;s trash folder? Sometimes important messages end up there.</p>
                     <p className='resent-otp no-select'>
@@ -76,7 +97,7 @@ export default function Otp({ changePage, redirected_from, user_email, closeWind
                         {error.message && (error.type !== "otp") && 
                         <span className="error-text">{error.message}</span>}
                     </p>
-                    <SubmitBtn />
+                    <SubmitBtn loading={loading} ready_to_submit={isFormValid} />
                 </fieldset>
             </form>
             <p className='edit-email'>Entered wrong email id? <span className="edit-email-btn" onClick={() => changePage(redirected_from)}>Edit</span></p>

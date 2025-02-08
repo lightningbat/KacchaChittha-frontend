@@ -1,23 +1,56 @@
 import './style.scss'
 import { Link } from 'react-router-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import authFetch from '../../services/auth_fetch';
 import useCustomDialog from '../../custom/dialogs'
 import OutsideClickDetector from '../outside_click_detector';
+import { Spinner } from '../../custom/loading_animations'
+import { user_details_cache } from '../../utils/cache';
 import PropTypes from 'prop-types'
 
 import kaccha_chittha_icon from '../../assets/media/kaccha_chittha_icon.png'
 
 NavBar.propTypes = {
-    userDetails: PropTypes.object,
-    setUserDetails: PropTypes.func,
     setShowAuthWindow: PropTypes.func,
     setShowProfessorForm: PropTypes.func
 }
-export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow, setShowProfessorForm }) {
+export default function NavBar({ setShowAuthWindow, setShowProfessorForm }) {
     const customDialogs = useCustomDialog()
     const [showMenu, setShowMenu] = useState(false); // user menu
     const menuBtnRef = useRef(null);
+    const [showLoadingWindow, setShowLoadingWindow] = useState(false);
+    const [userDetails, setUserDetails] = useState(null); // user details (id, name, email)
+    const [loadingUserDetails, setLoadingUserDetails] = useState(false);
+    const [showAboutWindow, setShowAboutWindow] = useState(false);
+
+    // startup functions
+    useEffect(() => {
+        if (!userDetails) {
+            getUserDetails();
+        }
+    }, []);
+
+    // fetches user details
+    async function getUserDetails() {
+        try {
+            setLoadingUserDetails(true);
+            const response = await authFetch({ route: "get-user", method: "GET" });
+            if (response.code === 200) {
+                setUserDetails(response.data);
+                // Storing user details in cache
+                Object.entries(response.data).forEach(([key, value]) => user_details_cache.set(key, value));
+            }
+        } catch (error) {
+            console.error(error);
+            customDialogs({
+                type: 'alert',
+                title: 'Error',
+                description: "An error occurred while fetching user details. Try reloading the page.",
+            })
+        } finally {
+            setLoadingUserDetails(false);
+        }
+    }
 
     async function logout() {
         const confirm = await customDialogs({
@@ -27,10 +60,20 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
         })
         if (!confirm) return;
 
+        setShowLoadingWindow(true);
+
         const response = await authFetch({ route: "logout", method: "DELETE" });
         if (response.code === 200) {
             setUserDetails(null);
             window.location.reload();
+        }
+        else {
+            customDialogs({
+                type: 'alert',
+                description: "Failed to logout",
+            })
+
+            setShowLoadingWindow(false);
         }
     }
 
@@ -46,6 +89,11 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
 
     return (
         <nav className='no-select'>
+            {showLoadingWindow && <div className="logout-loading-window">
+                <div className="loader">
+                    <Spinner />
+                </div>
+            </div>}
             <div className='nav-pc-view'>
                 <div className="logo">
                     <Link to="/">
@@ -71,12 +119,14 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
                             </Link>
                         </li>
                     </ul>
+                    <div className="about-us-btn" onClick={() => setShowAboutWindow(true)}>About Us</div>
                     <div className='user'>
-                        {!userDetails ? <p className='login' onClick={() => setShowAuthWindow(true)}>Login</p> :
-                            <svg xmlns="http://www.w3.org/2000/svg" onClick={() => setShowMenu(!showMenu)} ref={menuBtnRef} width="16" height="16" fill="currentColor" className="user-icon" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                            </svg>}
+                        {!loadingUserDetails && !userDetails && <p className='login' onClick={() => setShowAuthWindow(true)}>Login</p>}
+                        {!loadingUserDetails && userDetails && <svg xmlns="http://www.w3.org/2000/svg" onClick={() => setShowMenu(!showMenu)} ref={menuBtnRef} width="16" height="16" fill="currentColor" className="user-icon" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>}
+                        {loadingUserDetails && <Spinner scale={0.5} />}
                         {showMenu && userDetails &&
                             <OutsideClickDetector closePopup={() => setShowMenu(false)} buttonRef={menuBtnRef} style={{ position: "absolute", top: "40px", right: "0px" }}>
                                 <div className="user-menu">
@@ -106,7 +156,12 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
                                         </svg>
                                         <p className="menu-item-text">Logout</p>
                                     </div>
-
+                                    <a className="menu-item contact-us" href="mailto:spnae.severus@gmail.com?subject=Feedback and Suggestions for RateMyProfessor" target="_blank" rel="noopener noreferrer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="menu-item-icon email-icon" viewBox="0 0 16 16">
+                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+                                        </svg>
+                                        <p className="menu-item-text">Contact Us</p>
+                                    </a>
                                 </div>
                             </OutsideClickDetector>
                         }
@@ -133,6 +188,17 @@ export default function NavBar({ userDetails, setUserDetails, setShowAuthWindow,
                     </li>
                 </ul>
             </div>
+            {showAboutWindow && <div className="about-window-container" onClick={() => setShowAboutWindow(false)}>
+                <div className="about-window" onClick={(e) => e.stopPropagation()}>
+                    <h2>About</h2>
+                    <p className='about-text'>Ever wished you had a better way to understand what a professor&apos;s class is really like?  <i>We did too! </i> That&apos;s why we created this platform.  Here, students can share their experiences, giving each other valuable insights and helping to build a stronger, more connected learning environment.  Our goal is to make it easier for students to find the right professors</p>
+                    <h3>How it works:</h3>
+                    <p className='about-text'><b>Signing Up:</b> To ensure authenticity and maintain a secure environment, students can only sign up using their official college email address. A verification email will be sent to your college email to confirm your account.</p>
+                    <p className="about-text"><b>College-Specific Ratings:</b> You can only rate professors associated with your registered college. This ensures the ratings are relevant and focused.</p>
+                    <p className="about-text"><b>Commenting:</b> The comment section is a space for students to share more detailed feedback and discuss their experiences.</p>
+                    <p className="about-text"><b>Privacy and Anonymity:</b> We take your privacy seriously. Your ratings and comments are anonymous, and your personal information is kept confidential. We do not share your information with professors or other third parties without your explicit consent.</p>
+                </div>
+            </div>}
         </nav>
     )
 }

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import useCustomDialog from '../../custom/dialogs';
 import { useNavigate } from 'react-router-dom';
 import { colleges_list_cache } from '../../utils/cache';
+import { ResizingBars } from '../../custom/loading_animations';
 
 export default function CollegesListPage() {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function CollegesListPage() {
     const [collegesList, setCollegesList] = useState([]);
     const search_box_ref = useRef();
     const [searchMsg, setSearchMsg] = useState("");
+    const [loadingData, setLoadingData] = useState(false);
 
     async function fetchWrapper(url, options) {
         try {
@@ -32,6 +34,7 @@ export default function CollegesListPage() {
                 setCollegesList(colleges_list_cache);
                 return;
             }
+            setLoadingData(true); // showing loading animation
             // getting colleges list from api
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/get-colleges`, {
@@ -66,6 +69,9 @@ export default function CollegesListPage() {
                     description: "Error while getting colleges list"
                 });
                 console.error(error);
+            }
+            finally {
+                setLoadingData(false);
             }
         })()
 
@@ -143,13 +149,14 @@ export default function CollegesListPage() {
                 <SearchBox placeholder="Search Colleges" pattern="^[a-zA-Z ]+$" ref={search_box_ref} />
                 <div className="search-msg">{searchMsg}</div>
             </div>
-            <div className="list-container">
+            {!loadingData && <div className="list-container">
                 {
                     collegesList.map((item) => (
-                        <CollegeCard name={item.name} img={item.img} key={item.id} onClick={() => navigate(`/college/${item.id}/departments`)} />
+                        <CollegeCard key={item.id} {...item} onClick={() => navigate(`/college/${item.id}/departments`)} />
                     ))
                 }
-            </div>
+            </div>}
+            {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}
         </div>
     )
 }

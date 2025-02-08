@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { professors_list_cache } from '../../utils/cache';
 import useCustomDialog from '../../custom/dialogs';
+import { ResizingBars } from '../../custom/loading_animations';
 
 export default function ProfessorsListPage() {
     const customDialogs = useCustomDialog();
@@ -11,6 +12,7 @@ export default function ProfessorsListPage() {
     const [professors, setProfessors] = useState([]);
     const search_box_ref = useRef(null);
     const [searchMsg, setSearchMsg] = useState("");
+    const [loadingData, setLoadingData] = useState(false);
 
     async function fetchWrapper(url, options) {
         try {
@@ -30,25 +32,42 @@ export default function ProfessorsListPage() {
                 setProfessors(professors_list_cache);
                 return;
             }
-            const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/get-professors`, {
-                method: 'GET',
-            });
-            if (response.status === 200) {
-                const response_data = await response.json();
+            setLoadingData(true); // showing loading animation
+            try {
+                const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/get-professors`, {
+                    method: 'GET',
+                });
+                if (response.status === 200) {
+                    const response_data = await response.json();
 
-                // Storing professors list in cache
-                // 1st clearing the cache to avoid duplicates
-                professors_list_cache.length = 0;
-                // 2nd adding the new professors list
-                response_data.forEach((professor) => professors_list_cache.push({
-                    prof_id: professor.prof_id,
-                    name: `${professor.first_name} ${professor.last_name}`,
-                    image: professor.image,
-                    rating: professor.rating,
-                    college_name: professor.college_name
-                }));
+                    // Storing professors list in cache
+                    // 1st clearing the cache to avoid duplicates
+                    professors_list_cache.length = 0;
+                    // 2nd adding the new professors list
+                    response_data.forEach((professor) => professors_list_cache.push({
+                        prof_id: professor.prof_id,
+                        name: `${professor.first_name} ${professor.last_name}`,
+                        image: professor.image,
+                        rating: professor.rating,
+                        college_name: professor.college_name
+                    }));
 
-                setProfessors(professors_list_cache);
+                    setProfessors(professors_list_cache);
+                }
+                else {
+                    customDialogs({
+                        type: 'alert',
+                        description: "Failed to fetch professors list",
+                    })
+                }
+            } catch (error) {
+                console.error(error);
+                customDialogs({
+                    type: 'alert',
+                    description: "An error occurred while fetching professors list",
+                })
+            } finally {
+                setLoadingData(false);
             }
         })()
     }, [])
@@ -137,11 +156,12 @@ export default function ProfessorsListPage() {
                 <SearchBox placeholder="Search Colleges" pattern="^[a-zA-Z ]+$" ref={search_box_ref} />
                 <div className="search-msg">{searchMsg}</div>
             </div>
-            <div className="list-container">
+            {!loadingData && <div className="list-container">
                 {professors.map((professor) => (
                     <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
                 ))}
-            </div>
+            </div>}
+            {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}
         </div>
     )
 }

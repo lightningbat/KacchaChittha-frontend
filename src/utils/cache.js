@@ -4,17 +4,17 @@ const professors_list_cache = []; // Format: [{ prof_id, name, image, rating, co
 const college_departments_cache = new Map(); // Format: { college_id: [department1, department2, ...] }
 const college_professors_cache = new Map(); // Format: { college_id + department: [professor1, professor2, ...] }
 const professors_review_cache = new Map(); /* Format: { 
-prof_id: {
-    details: {
-        name, image, description, department, college_name, college_id
-    },
-    review: {
-        total_ratings, overall_rating, distributed_ratings
-    },
-    user_review: null || {
-        user_id, is_same_college, review: null || { rating, timestamp }
-    } 
-}}
+    prof_id: {
+        details: {
+            name, image, description, department, college_name, college_id
+        },
+        review: {
+            total_ratings, overall_rating, distributed_ratings
+        },
+        user_review: null || {
+            user_id, is_same_college, review: null || { rating, timestamp }
+        } 
+    }}
 */
 const comments_cache = new Map(); // Format: { prof_id: [comment1, comment2, ...] }
 const replies_cache = new Map(); // Format: { comment_id: [reply1, reply2, ...] }

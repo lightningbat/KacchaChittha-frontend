@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SearchBox } from '../../components';
 import { college_departments_cache } from '../../utils/cache';
 import { useNavigate } from 'react-router-dom';
+import { ResizingBars } from '../../custom/loading_animations';
 
 // if user directly goes to this page
 // than college name will be cached (since it is done in CollegesListPage)
@@ -16,6 +17,7 @@ export default function DepartmentsPage() {
     const [departments, setDepartments] = useState(null);
     const search_box_ref = useRef(null);
     const [showSearchBox, setShowSearchBox] = useState(false);
+    const [loadingData, setLoadingData] = useState(false);
 
     // fetching data
     useEffect(() => {
@@ -30,7 +32,7 @@ export default function DepartmentsPage() {
                 if (college_departments_cache.get(college_id).length > 1) setShowSearchBox(true);
                 return;
             }
-
+            setLoadingData(true); // showing loading animation
             try {
                 const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/get-departments/${college_id}`, {
                     method: "GET",
@@ -58,6 +60,9 @@ export default function DepartmentsPage() {
                 console.error(error);
                 setCollegeName(null);
                 setDepartments([]);
+            }
+            finally {
+                setLoadingData(false); // hiding loading animation
             }
         })()
     }, []);
@@ -94,7 +99,7 @@ export default function DepartmentsPage() {
                 <div className='search-box-cont'><SearchBox placeholder="Search Departments" ref={search_box_ref} /></div>
             }
 
-            <div className="list-container">
+            {!loadingData && <div className="list-container">
                 {departments != null && departments.map((item, index) => (
                     <div className="list-item" onClick={() => navigate(`/college/${college_id}/${item}/professors`)} key={index}>{item}</div>
                 ))}
@@ -106,7 +111,8 @@ export default function DepartmentsPage() {
                         <p className="label">No Departments Available</p>
                     </div>
                 }
-            </div>
+            </div>}
+            {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}
         </div>
     )
 }

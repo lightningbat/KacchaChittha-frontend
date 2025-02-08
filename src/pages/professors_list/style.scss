@@ -2,7 +2,7 @@
     padding: 5rem 0;
     text-align: center;
 
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 530px) {
         padding-top: 8rem;
     }
 
@@ -41,5 +41,11 @@
             width: fit-content;
             margin: 0 auto;
         }
+    }
+
+    .loading-animation-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 5rem;
     }
 }

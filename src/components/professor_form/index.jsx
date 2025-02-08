@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import useCustomDialog from '../../custom/dialogs';
 import { user_details_cache } from '../../utils/cache';
 import { Jimp } from 'jimp';
+import { Spinner } from '../../custom/loading_animations';
 
 ProfessorForm.propTypes = {
     closeForm: PropTypes.func
@@ -96,8 +97,6 @@ export default function ProfessorForm({ closeForm }) {
 
                 // reading image as base64
                 const base64Image = await image.getBase64('image/jpeg');
-
-                console.log(base64Image.length);
 
                 setSelectedImage(base64Image);
             } catch (error) {
@@ -196,6 +195,7 @@ export default function ProfessorForm({ closeForm }) {
             });
 
             if (response.status === 201) {
+                setLoading(false);
                 await customDialogs({
                     type: 'alert',
                     description: 'Successfully submitted the form.'
@@ -305,7 +305,8 @@ export default function ProfessorForm({ closeForm }) {
                         }
                         <hr />
                         <div className="submit-btn-cont">
-                            <button type="submit">Submit</button>
+                            {!loading && <button type="submit">Submit</button>}
+                            {loading && <Spinner scale={0.5} thickness={2} color="#31a754" />}
                         </div>
                     </fieldset>
                 </form>

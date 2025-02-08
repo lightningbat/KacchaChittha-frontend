@@ -2,6 +2,7 @@ import './style.scss'
 import { user_details_cache, professors_review_cache } from '../../../../utils/cache';
 import { useState } from 'react';
 import useCustomDialog from '../../../../custom/dialogs';
+import { Spinner } from '../../../../custom/loading_animations';
 import PropTypes from 'prop-types';
 
 UserReviewEdit.propTypes = {
@@ -25,6 +26,7 @@ export default function UserReviewEdit({currentRating, setCurrentRating, setRevi
         }
 
         if (!currentRating) return;
+        if (currentRating === userReview?.review.rating) return;
 
         setLoading(true); // disabling rating box while editing review
 
@@ -100,8 +102,9 @@ export default function UserReviewEdit({currentRating, setCurrentRating, setRevi
                     ))}
                 </div>
                 <div className="btns-cont">
-                    <button disabled={loading} className="cancel" onClick={() => setReviewBoxToShow('display')}>Cancel</button>
-                    <button disabled={loading} onClick={handleEditReview} className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button>
+                    {!loading && <> <button disabled={loading} className="cancel" onClick={() => setReviewBoxToShow('display')}>Cancel</button>
+                    <button disabled={loading} onClick={handleEditReview} className={`save ${currentRating !== userReview?.review?.rating && currentRating !== 0 ? 'active' : ''}`}>Save</button> </>}
+                    {loading && <Spinner scale={0.5} thickness={2} color="#464646" />}
                 </div>
             </div>
         </div>

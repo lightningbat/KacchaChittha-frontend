@@ -92,12 +92,11 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
 
     // managing which review box to show (post / display) after data fetched
     useEffect(() => {
-        if (!userReview) return;
-        if (userReview?.review) {
-            setReviewBoxToShow('display');
-        }
-        else if (!userReview?.user_id || (userReview?.is_same_college && !userReview?.review)) {
+        if (!userReview?.user_id || (userReview?.is_same_college && !userReview?.review)) {
             setReviewBoxToShow('write');
+        }
+        else if (userReview?.review) {
+            setReviewBoxToShow('display');
         }
     }, [userReview])
 

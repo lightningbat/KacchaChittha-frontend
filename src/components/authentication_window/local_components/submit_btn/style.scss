@@ -1,11 +1,24 @@
-.submit-btn {
+.submit-btn-cont {
     width: 100%;
     height: 40px;
-    border-radius: 20px;
-    border: none;
-    background-color: #AFE1AF;
-    color: #477047;
-    font-size: 1.6rem;
-    font-weight: 500;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .submit-btn {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        border: none;
+        background-color: #AFE1AF;
+        color: #477047;
+        font-size: 1.6rem;
+        font-weight: 500;
+        cursor: pointer;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
 }
