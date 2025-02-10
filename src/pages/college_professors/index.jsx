@@ -34,12 +34,7 @@ export default function CollegeProfessorsPage() {
                     // Storing data in cache
                     const all_professors = [];
                     data.professors.forEach((professor) => {
-                        all_professors.push({
-                            name: `${professor.first_name} ${professor.last_name}`,
-                            image: professor.image,
-                            rating: professor.rating,
-                            prof_id: professor.prof_id
-                        })
+                        all_professors.push(professor);
                     })
                     college_professors_cache.set(`${college_id} + ${department}`, all_professors);
 

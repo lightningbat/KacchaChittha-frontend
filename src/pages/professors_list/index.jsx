@@ -44,13 +44,7 @@ export default function ProfessorsListPage() {
                     // 1st clearing the cache to avoid duplicates
                     professors_list_cache.length = 0;
                     // 2nd adding the new professors list
-                    response_data.forEach((professor) => professors_list_cache.push({
-                        prof_id: professor.prof_id,
-                        name: `${professor.first_name} ${professor.last_name}`,
-                        image: professor.image,
-                        rating: professor.rating,
-                        college_name: professor.college_name
-                    }));
+                    response_data.forEach((professor) => professors_list_cache.push(professor));
 
                     setProfessors(professors_list_cache);
                 }
@@ -72,18 +66,19 @@ export default function ProfessorsListPage() {
         })()
     }, [])
 
+    // search box event handlers
     useEffect(() => {
         const search_box = search_box_ref.current;
 
         const handleInputChange = (event) => {
             // removing all non-alphabets and non-spaces
-            event.target.value = event.target.value.replace(/[^a-zA-Z ]/g, '');
+            event.target.value = event.target.value.replace(/[^a-zA-Z. ]/g, '');
             // trimming spaces
             const user_input = (event.target.value).trim();
             if (user_input == "") setSearchMsg("");
 
             const search_result = professors_list_cache.filter((item) => item.name.toLowerCase().includes(user_input.toLowerCase()));
-            if (search_result.length && user_input != "") {
+            if (user_input != "") {
                 setSearchMsg("Hit Enter to look in the Database");
             }
             setProfessors(search_result);
@@ -109,23 +104,14 @@ export default function ProfessorsListPage() {
 
                 if (response.ok) {
                     const response_data = await response.json();
-                    const data = response_data.map((item) => {
-                        return {
-                            prof_id: item.prof_id,
-                            name: `${item.first_name} ${item.last_name}`,
-                            image: item.image,
-                            rating: item.rating,
-                            college_name: item.college_name
-                        }
-                    });
 
-                    setProfessors(data);
-                    setSearchMsg(`Found ${data.length} results for "${user_input}"`);
+                    setProfessors(response_data);
+                    setSearchMsg(`Found ${response_data.length} results for "${user_input}"`);
 
                     // adding new data to cached data (if not present)
-                    if (data.length) {
-                        data.forEach((item) => {
-                            if (!professors_list_cache.find((cached_item) => cached_item.prof_id === item.id)) {
+                    if (response_data.length) {
+                        response_data.forEach((item) => {
+                            if (!professors_list_cache.find((cached_item) => cached_item.prof_id === item.prof_id)) {
                                 professors_list_cache.push(item);
                             }
                         })
@@ -134,7 +120,7 @@ export default function ProfessorsListPage() {
                     customDialogs({
                         type: "alert",
                         title: "Error",
-                        description: "Failed to get colleges list"
+                        description: "Failed to find professor(s)",
                     })
                 }
             }

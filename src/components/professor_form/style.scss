@@ -88,14 +88,15 @@
                 }
 
                 .input-container {
+                    width: 100%;
                     flex: 1;
 
-                    input, label, textarea {
+                    input, label, textarea, select {
                         display: block;
                         width: 100%;
                     }
 
-                    input, textarea {
+                    input, textarea, select {
                         width: 100%;
                         height: 30px;
                         border: 1px solid #a1a1a1;
@@ -143,11 +144,13 @@
                 }
             }
 
-            .department {
+            .position {
                 input#department {
                     text-transform: none !important;
                 }
-
+            }
+            
+            .college {
                 input#college-name {
                     background-color: rgb(240, 240, 240);
                 }

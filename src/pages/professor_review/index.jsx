@@ -44,9 +44,11 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
 
                     // organizing data
                     const prof_details = {
-                        name: `${data.first_name} ${data.last_name}`,
                         image: data.image,
+                        name: data.name,
                         description: data.description,
+                        bio_link: data.bio_link,
+                        designation: data.designation,
                         department: data.department,
                         college_name: data.college_name,
                         college_id: data.college_id
@@ -104,15 +106,19 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
         <div className="professor-review-page">
             <div className="main-content">
                 <div className="prof-details">
-                    <div className="image">
-                        <img src={details?.image} alt="" />
+                    <div className='left-right'>
+                        <div className="image">
+                            <img src={details?.image} alt="" />
+                        </div>
+                        <div className="info">
+                            <h3 className="name">{details?.name}</h3>
+                            <p className="college tag">{details?.college_name}</p>
+                            <p className="department tag">{details?.department}</p>
+                            <p className="designation tag">{details?.designation}</p>
+                        </div>
                     </div>
-                    <div className="info">
-                        <h3 className="name">{details?.name}</h3>
-                        <p className="college">{details?.college_name}</p>
-                        <p className="department">{details?.department}</p>
-                        <p className="description">{details?.description}</p>
-                    </div>
+                    <p className="description">{details?.description}{ details && !details?.description && "No description available."}</p>
+                    {details?.bio_link && <a href={details?.bio_link} target="_blank" rel="noopener noreferrer" className="bio-link">Read More</a>}
                 </div>
                 {review && review.total_ratings > 0 &&
                     <div className="reviews">

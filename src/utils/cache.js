@@ -6,7 +6,7 @@ const college_professors_cache = new Map(); // Format: { college_id + department
 const professors_review_cache = new Map(); /* Format: { 
     prof_id: {
         details: {
-            name, image, description, department, college_name, college_id
+            image, name, description, bio_link, designation, department, college_name, college_id
         },
         review: {
             total_ratings, overall_rating, distributed_ratings

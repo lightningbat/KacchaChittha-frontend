@@ -25,6 +25,7 @@ export default function ProfessorForm({ closeForm }) {
         setUserCollegeDetails({ college_name, college_departments });
     }
 
+    // fetching user college details
     useEffect(() => {
         (async () => {
             try {
@@ -93,7 +94,7 @@ export default function ProfessorForm({ closeForm }) {
                 }
 
                 // Resize the image while maintaining aspect ratio
-                await image.resize({w: Math.round(image.bitmap.width * scaleFactor), h: Math.round(image.bitmap.height * scaleFactor)});
+                await image.resize({ w: Math.round(image.bitmap.width * scaleFactor), h: Math.round(image.bitmap.height * scaleFactor) });
 
                 // reading image as base64
                 const base64Image = await image.getBase64('image/jpeg');
@@ -173,16 +174,18 @@ export default function ProfessorForm({ closeForm }) {
         setError({ type: null, message: null });
 
         // getting form data
-        const first_name = event.target[1].value.trim();
-        const last_name = event.target[2].value.trim() || null;
-        const description = event.target[3].value.trim() || null;
-        const department = event.target[4].value;
+        const name = event.target["full-name"].value.trim();
+        const description = event.target["description"].value.trim() || null;
+        const bio_link = event.target["bio-link"].value.trim() || null;
+        const department = event.target["department"].value.trim();
+        const designation = event.target["designation"].value.trim();
 
-        const payload = { first_name, department };
+        const payload = { name, designation, department };
 
-        if (last_name) payload.last_name = last_name;
+        // only adding description and image if it is not empty
         if (description) payload.description = description;
         if (selectedImage) payload.image = selectedImage;
+        if (bio_link) payload.bio_link = bio_link;
 
         try {
             const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/submit-professor-form`, {
@@ -239,17 +242,12 @@ export default function ProfessorForm({ closeForm }) {
                 <form action="" onSubmit={handleSubmit}>
                     <fieldset disabled={loading}>
                         <div className="input-field full-name">
-                            <p className="field-title">Full Name</p>
-                            <div className="input-container left-right">
+                            <p className="field-title">Name</p>
+                            <div className="input-container">
                                 <div className="input-box">
-                                    {error.type === "first_name" && <p className="error-msg-cont">{error.message}</p>}
-                                    <AlphabeticalInput name="first-name" id="first-name" pattern="^[a-zA-Z]+$" title="Only Alphabets are allowed" maxLength="20" required />
-                                    <label htmlFor="first-name">First Name</label>
-                                </div>
-                                <div className="input-box">
-                                    {error.type === "last_name" && <p className="error-msg-cont">{error.message}</p>}
-                                    <AlphabeticalInput name="last-name" id="last-name" pattern="^[a-zA-Z]+$" title="Only Alphabets are allowed" maxLength="20" />
-                                    <label htmlFor="last-name">Last Name</label>
+                                    {error.type === "name" && <p className="error-msg-cont">{error.message}</p>}
+                                    <input name="full-name" id="full-name" pattern="^[a-zA-Z\s.]+$" title="Only Alphabets, White Space and Dots are allowed" maxLength="35" required />
+                                    <label htmlFor="full-name">Full Name</label>
                                 </div>
                             </div>
                         </div>
@@ -261,8 +259,18 @@ export default function ProfessorForm({ closeForm }) {
                                 <label htmlFor="description">{descriptionLength} / 300</label>
                             </div>
                         </div>
+                        <div className="input-field bio-link">
+                            <p className="field-title">Bio Link</p>
+                            <div className="input-container">
+                                <div className="input-box">
+                                    {error.type === "bio_link" && <p className="error-msg-cont">{error.message}</p>}
+                                    <input type="url" name="bio-link" id="bio-link" maxLength="255" />
+                                    <label htmlFor="bio-link">Bio Link</label>
+                                </div>
+                            </div>
+                        </div>
                         <div className="input-field department">
-                            <p className="field-title">Department</p>
+                            <p className="field-title">Other Details</p>
                             <div className="input-container left-right">
                                 <div className="input-box">
                                     {error.type === "department" && <p className="error-msg-cont">{error.message}</p>}
@@ -272,6 +280,22 @@ export default function ProfessorForm({ closeForm }) {
                                     </datalist>
                                     <label htmlFor="department">Professor&apos;s Department</label>
                                 </div>
+                                <div className="input-box">
+                                    {error.type === "designation" && <p className="error-msg-cont">{error.message}</p>}
+                                    <select name="designation" id="position" required>
+                                        <option value="">Select Professor&apos;s Position</option>
+                                        <option value="HOD">HOD</option>
+                                        <option value="Professor">Professor</option>
+                                        <option value="Associate Professor">Associate Professor</option>
+                                        <option value="Assistant Professor">Assistant Professor</option>
+                                    </select>
+                                    <label htmlFor="position">Professor&apos;s Position</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="input-field college">
+                            <p className="field-title">College</p>
+                            <div className="input-container">
                                 <div className="input-box college-name-container">
                                     <input id="college-name" value={userCollegeDetails.college_name} readOnly />
                                     <label htmlFor="college-name">College Name</label>
@@ -300,7 +324,7 @@ export default function ProfessorForm({ closeForm }) {
                             </div>
                         </div>
                         {error.type &&
-                            (error.type !== "first_name" || error.type !== "last_name" || error.type !== "description" || error.type !== "department") &&
+                            (error.type !== "name" || error.type !== "description" || error.type !== "bio_link" || error.type !== "department" || error.type !== "designation") &&
                             <p className="error-msg-cont bottom">{error.message}</p>
                         }
                         <hr />
@@ -312,13 +336,5 @@ export default function ProfessorForm({ closeForm }) {
                 </form>
             </div>
         </div>
-    )
-}
-
-function AlphabeticalInput(props) {
-    return (
-        <input type="text" {...props} onInput={(event) => {
-            event.target.value = event.target.value.replace(/[^a-zA-Z]+/gi, '');
-        }} />
     )
 }
