@@ -100,6 +100,9 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
         else if (userReview?.review) {
             setReviewBoxToShow('display');
         }
+        else {
+            setReviewBoxToShow(null);
+        }
     }, [userReview])
 
     return (
