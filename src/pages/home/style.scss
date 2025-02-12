@@ -82,10 +82,14 @@
     }
 
     .featured-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         margin-top: 3rem;
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 400;
+            text-align: center;
+            color: rgb(77, 77, 77);
+        }
 
         .featured-tabs {
             width: 100%;

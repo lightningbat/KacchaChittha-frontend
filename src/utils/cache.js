@@ -18,6 +18,7 @@ const professors_review_cache = new Map(); /* Format: {
 */
 const comments_cache = new Map(); // Format: { prof_id: [comment1, comment2, ...] }
 const replies_cache = new Map(); // Format: { comment_id: [reply1, reply2, ...] }
+const top_lists_cache = new Map(); // Format: { colleges: [college1, college2, ...], professors: [professor1, professor2, ...] }
 
 export {
     user_details_cache,
@@ -27,5 +28,6 @@ export {
     college_professors_cache,
     professors_review_cache,
     comments_cache,
-    replies_cache
+    replies_cache,
+    top_lists_cache,
 }

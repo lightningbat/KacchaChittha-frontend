@@ -8,9 +8,10 @@ ProfessorCard.propTypes = {
     college_name: PropTypes.string,
     department: PropTypes.string,
     designation: PropTypes.string,
-    rating: PropTypes.number
+    rating: PropTypes.number,
+    onClick: PropTypes.func
 }
-export default function ProfessorCard({ image, name, college_name, department, designation, rating=0.5 }) {
+export default function ProfessorCard({ image, name, college_name, department, designation, rating=0.5, onClick }) {
 
     // Styling background image
     const clrs = ["rgb(204, 235, 233)", "rgb(204, 235, 206)", "rgb(204, 223, 235)", "rgb(235, 204, 234)", "rgb(235, 204, 204)"];
@@ -18,7 +19,7 @@ export default function ProfessorCard({ image, name, college_name, department, d
     const background_image = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="${random_clr}" className="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>')`;
 
     return (
-        <div className="professor-card-global" style={{ backgroundImage: background_image }}>
+        <div className="professor-card-global" style={{ backgroundImage: background_image }} onClick={onClick}>
             <div className="img-container">
                 {image && <img src={image} alt="" />}
             </div>
