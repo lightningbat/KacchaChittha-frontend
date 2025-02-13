@@ -8,12 +8,13 @@ import { Spinner } from '../../../../custom/loading_animations';
 UserReviewWrite.propTypes = {
     currentRating: PropTypes.number,
     setCurrentRating: PropTypes.func,
+    updateProfReview: PropTypes.func,
     showAuthenticationWindow: PropTypes.func,
     prof_id: PropTypes.string,
     setUserReview: PropTypes.func,
     setReviewBoxToShow: PropTypes.func
 }
-export default function UserReviewWrite({ currentRating, setCurrentRating, showAuthenticationWindow, prof_id, setUserReview, setReviewBoxToShow }) {
+export default function UserReviewWrite({ currentRating, setCurrentRating, updateProfReview, showAuthenticationWindow, prof_id, setUserReview, setReviewBoxToShow }) {
     const customDialogs = useCustomDialog();
     const [loading, setLoading] = useState(false);
 
@@ -45,6 +46,11 @@ export default function UserReviewWrite({ currentRating, setCurrentRating, showA
                 is_same_college: true,
                 review: { rating: currentRating, timestamp }
             }
+            // updating prof review
+            const old_distributed_ratings = professors_review_cache.get(prof_id).review.distributed_ratings;
+            const new_distributed_ratings = { ...old_distributed_ratings, [currentRating]: old_distributed_ratings[currentRating] + 1 };
+            updateProfReview(new_distributed_ratings);
+
             // updating state
             setUserReview({
                 user_id,

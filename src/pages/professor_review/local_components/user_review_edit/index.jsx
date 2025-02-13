@@ -8,13 +8,14 @@ import PropTypes from 'prop-types';
 UserReviewEdit.propTypes = {
     currentRating: PropTypes.number,
     setCurrentRating: PropTypes.func,
+    updateProfReview: PropTypes.func,
     setReviewBoxToShow: PropTypes.func,
     userReview: PropTypes.object,
     setUserReview: PropTypes.func,
     showAuthenticationWindow: PropTypes.func,
     prof_id: PropTypes.string
 }
-export default function UserReviewEdit({currentRating, setCurrentRating, setReviewBoxToShow, userReview, setUserReview, showAuthenticationWindow, prof_id }) {
+export default function UserReviewEdit({currentRating, setCurrentRating, updateProfReview, setReviewBoxToShow, userReview, setUserReview, showAuthenticationWindow, prof_id }) {
     const customDialogs = useCustomDialog();
     const [loading, setLoading] = useState(false);
 
@@ -42,6 +43,15 @@ export default function UserReviewEdit({currentRating, setCurrentRating, setRevi
 
             if (response && response.status === 200) {
                 const { timestamp } = await response.json();
+
+                // updating prof review
+                const old_distributed_ratings = professors_review_cache.get(prof_id).review.distributed_ratings;
+                const old_user_rating = professors_review_cache.get(prof_id).user_review.review.rating;
+                // subtracting old user rating from old distributed ratings and adding new rating to new distributed ratings
+                const new_distributed_ratings = { ...old_distributed_ratings };
+                new_distributed_ratings[old_user_rating] = old_distributed_ratings[old_user_rating] - 1;
+                new_distributed_ratings[currentRating] = old_distributed_ratings[currentRating] + 1;
+                updateProfReview(new_distributed_ratings);
 
                 // updating cache
                 professors_review_cache.get(prof_id).user_review.review.rating = currentRating;

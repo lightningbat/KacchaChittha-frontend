@@ -8,12 +8,13 @@ import PropTypes from 'prop-types'
 UserReviewDisplay.propTypes = {
     userReview: PropTypes.object,
     setUserReview: PropTypes.func,
+    updateProfReview: PropTypes.func,
     setReviewBoxToShow: PropTypes.func,
     setCurrentRating: PropTypes.func,
     showAuthenticationWindow: PropTypes.func,
     prof_id: PropTypes.string
 }
-export default function UserReviewDisplay({ userReview, setUserReview, setReviewBoxToShow, setCurrentRating, showAuthenticationWindow, prof_id }) {
+export default function UserReviewDisplay({ userReview, setUserReview, updateProfReview, setReviewBoxToShow, setCurrentRating, showAuthenticationWindow, prof_id }) {
     const customDialogs = useCustomDialog();
     const menubtn_ref = useRef(null);
     const [showMenu, setShowMenu] = useState(false);
@@ -46,6 +47,13 @@ export default function UserReviewDisplay({ userReview, setUserReview, setReview
             });
 
             if (response && response.status === 200) {
+                // updating prof review
+                const old_user_rating = professors_review_cache.get(prof_id).user_review.review.rating;
+                const old_distributed_ratings = professors_review_cache.get(prof_id).review.distributed_ratings;
+                // subtracting old user rating from old distributed ratings
+                const new_distributed_ratings = { ...old_distributed_ratings, [old_user_rating]: old_distributed_ratings[old_user_rating] - 1 };
+                updateProfReview(new_distributed_ratings);
+
                 // updating cache
                 professors_review_cache.get(prof_id).user_review.review = null;
                 // updating state

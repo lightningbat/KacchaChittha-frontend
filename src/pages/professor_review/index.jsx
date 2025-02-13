@@ -18,6 +18,21 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
     const [currentRating, setCurrentRating] = useState(0); // to manage rating stars state
     const [reviewBoxToShow, setReviewBoxToShow] = useState(null); // to manage review box state (write / display)
 
+    // supportive function for review box to update professor review UI in realtime
+    function updateProfReview(new_distributed_ratings) {
+        // calculating overall rating
+        const rating_count = Object.values(new_distributed_ratings).reduce((total, value) => total + value, 0);
+        const overall_rating = Object.entries(new_distributed_ratings).reduce((total, [key, value]) => total + parseFloat(key) * value, 0) / rating_count;
+        // updating cache
+        professors_review_cache.get(prof_id).review = {
+            total_ratings: rating_count,
+            overall_rating: Number(overall_rating.toFixed(1)),
+            distributed_ratings: new_distributed_ratings
+        }
+        // updating state
+        setReview(professors_review_cache.get(prof_id).review);
+    }
+
     // fetching professor and review data
     useEffect(() => {
         (async () => {
@@ -177,6 +192,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 <UserReviewWrite
                     currentRating={currentRating}
                     setCurrentRating={setCurrentRating}
+                    updateProfReview={updateProfReview}
                     showAuthenticationWindow={showAuthenticationWindow}
                     prof_id={prof_id}
                     setUserReview={setUserReview}
@@ -187,6 +203,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 <UserReviewDisplay
                     userReview={userReview}
                     setUserReview={setUserReview}
+                    updateProfReview={updateProfReview}
                     setReviewBoxToShow={setReviewBoxToShow}
                     setCurrentRating={setCurrentRating}
                     showAuthenticationWindow={showAuthenticationWindow}
@@ -197,6 +214,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                 <UserReviewEdit
                     currentRating={currentRating}
                     setCurrentRating={setCurrentRating}
+                    updateProfReview={updateProfReview}
                     setReviewBoxToShow={setReviewBoxToShow}
                     userReview={userReview}
                     setUserReview={setUserReview}
