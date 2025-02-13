@@ -100,8 +100,11 @@ export default function DepartmentsPage() {
             }
 
             {!loadingData && <div className="list-container">
-                {departments != null && departments.map((item, index) => (
-                    <div className="list-item" onClick={() => navigate(`/college/${college_id}/${item}/professors`)} key={index}>{item}</div>
+                {departments != null && departments.map((department, index) => (
+                    <div className="list-item" onClick={() => navigate(`/college/${college_id}/${department.name}/professors`)} key={index}>
+                        {department?.icon && <img src={department.icon} alt="" />}
+                        {department.name}
+                    </div>
                 ))}
                 {departments != null && departments.length === 0 && (search_box_ref.current?.value == "" || search_box_ref.current == null) &&
                     <div className="empty-list-container">
