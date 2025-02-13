@@ -131,7 +131,7 @@ export default function ProfessorReviewPage({ showAuthenticationWindow }) {
                         <div className="info">
                             <h3 className="name">{details?.name}</h3>
                             <p className="college tag">{details?.college_name}</p>
-                            {details?.department && <p className="department tag">{details?.department.name}</p>}
+                            {details?.department && <p className="department tag">{details?.department}</p>}
                             {details?.designation && <p className="designation tag">{details?.designation}</p>}
                         </div>
                     </div>

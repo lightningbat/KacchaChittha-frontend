@@ -80,12 +80,11 @@ export default function CollegesListPage() {
             // removing all non-alphabets and non-spaces
             event.target.value = event.target.value.replace(/[^a-zA-Z ]/g, '');
             // trimming spaces
-            const user_input = (event.target.value).trim();
-            
+            const user_input = (event.target.value).trim();          
             if (user_input == "") setSearchMsg("");
 
             const search_result = colleges_list_cache.filter((item) => item.name.toLowerCase().includes(user_input.toLowerCase()));
-            if (search_result.length && user_input != "") {
+            if ( user_input != "") {
                 setSearchMsg("Hit Enter to look in the Database");
             }
             setCollegesList(search_result);
