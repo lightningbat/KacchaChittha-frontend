@@ -13,7 +13,7 @@ const colleges_name_cache = {} // Format: { college_id: name }
 export default function DepartmentsPage() {
     const { id: college_id } = useParams();
     const navigate = useNavigate();
-    const [collegeName, setCollegeName] = useState("Loading...");
+    const [collegeName, setCollegeName] = useState(null);
     const [departments, setDepartments] = useState(null);
     const search_box_ref = useRef(null);
     const [showSearchBox, setShowSearchBox] = useState(false);
@@ -75,7 +75,7 @@ export default function DepartmentsPage() {
 
         const handleInputChange = () => {
             const user_input = search_box.value.trim();
-            const new_departments = departments.filter((item) => item.toLowerCase().includes(user_input.toLowerCase()));
+            const new_departments = college_departments_cache.get(college_id).filter((department) => department.name.toLowerCase().includes(user_input.toLowerCase()));
             setDepartments(new_departments);
         };
         search_box.addEventListener('input', handleInputChange);
