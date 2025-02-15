@@ -13,6 +13,7 @@ export default function ProfessorsListPage() {
     const search_box_ref = useRef(null);
     const [searchMsg, setSearchMsg] = useState("");
     const [loadingData, setLoadingData] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
 
     async function fetchWrapper(url, options) {
         try {
@@ -135,6 +136,48 @@ export default function ProfessorsListPage() {
         }
     }, [])
 
+    async function handleLoadMore() {
+        setLoadingMore(true);
+        let new_professors_added = 0;
+        try {
+            const response = await fetchWrapper(`${import.meta.env.VITE_SERVER_URL}/get-professors`, {
+                method: 'GET',
+            });
+            if (response.ok) {
+                const response_data = await response.json();
+                // Storing professors list in cache
+                // adding only the professors not already present
+                response_data.forEach((professor) => {
+                    if (!professors_list_cache.find((cached_item) => cached_item.prof_id === professor.prof_id)) {
+                        professors_list_cache.push(professor);
+                        new_professors_added++;
+                    }
+                })
+                setProfessors(professors_list_cache);
+            }
+            else {
+                customDialogs({
+                    type: 'alert',
+                    description: "Failed to fetch professors list",
+                })
+            }
+        } catch (error) {
+            console.error(error);
+            customDialogs({
+                type: 'alert',
+                description: "An error occurred while fetching professors list",
+            })
+        } finally {
+            setLoadingMore(false);
+            if (new_professors_added == 0) {
+                customDialogs({
+                    type: 'alert',
+                    description: "No more professors to load",
+                })
+            }
+        }
+    }
+
     return (
         <div className="professor-page">
             <h3 className='page-heading'>Know Your Professors</h3>
@@ -147,6 +190,11 @@ export default function ProfessorsListPage() {
                     <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
                 ))}
             </div>}
+            {(!loadingData && professors.length > 0 && search_box_ref.current.value == "") && <>{!loadingMore ? 
+                <button className="load-more-btn" onClick={handleLoadMore}>Load More</button> 
+                : 
+                <div className="loading-animation-container"><ResizingBars /></div>}
+            </>}
             {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}
         </div>
     )

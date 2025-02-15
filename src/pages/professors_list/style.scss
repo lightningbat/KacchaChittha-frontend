@@ -1,5 +1,5 @@
 .professor-page {
-    padding: 5rem 0;
+    padding: 5rem 0 2rem 0;
     text-align: center;
 
     @media screen and (max-width: 530px) {
@@ -41,6 +41,19 @@
             width: fit-content;
             margin: 0 auto;
         }
+    }
+
+    .load-more-btn {
+        width: fit-content;
+        margin: 2rem auto;
+        padding: 1rem 3rem;
+        background-color: #AFE1AF;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #1a1a1a;
+        cursor: pointer;
     }
 
     .loading-animation-container {
