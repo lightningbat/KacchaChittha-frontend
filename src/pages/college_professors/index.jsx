@@ -10,7 +10,7 @@ const college_name_cache = {}; // Format: { college_id: name }
 export default function CollegeProfessorsPage() {
     const { id: college_id, department } = useParams();
     const navigate = useNavigate();
-    const [collegeName, setCollegeName] = useState("Loading...")
+    const [collegeName, setCollegeName] = useState(null);
     const [professorsList, setProfessorsList] = useState([]);
     const search_box_ref = useRef(null);
     const [loadingData, setLoadingData] = useState(false);
@@ -71,7 +71,7 @@ export default function CollegeProfessorsPage() {
 
     return (
         <div className="college-professor-page">
-            <h3 className='page-heading'>Professors at {`${collegeName}`}</h3>
+            {!loadingData && <h3 className='page-heading'>Professors at {`${collegeName}`}</h3>}
             <h4 className='department-name'>{department}</h4>
             <div className="search-box-cont"><SearchBox placeholder="Search professors" ref={search_box_ref} /></div>
             {!loadingData && <div className="list-container">

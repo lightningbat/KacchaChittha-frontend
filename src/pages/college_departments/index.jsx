@@ -93,7 +93,7 @@ export default function DepartmentsPage() {
     return (
         <div className="departments-page">
             <h3 className='page-heading'>Departments</h3>
-            <h4 className={`college-name ${!collegeName ? "unknown" : ""}`}>{collegeName || "Unavailable"}</h4>
+            {!loadingData && <h4 className={`college-name ${!collegeName ? "unknown" : ""}`}>{collegeName || "Unavailable"}</h4>}
 
             {showSearchBox &&
                 <div className='search-box-cont'><SearchBox placeholder="Search Departments" ref={search_box_ref} /></div>
