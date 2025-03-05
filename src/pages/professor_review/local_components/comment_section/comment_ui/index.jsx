@@ -148,7 +148,7 @@ export default function CommentUI({
     return (
         <div className="comment-ui">
             <div className="comment-info">
-                {current_user_id !== user_id && <p className="user-name">{user_name}</p>}
+                {current_user_id !== user_id && user_name && <p className="user-name">{user_name}</p>}
                 <p className={`timestamp ${current_user_id === user_id ? 'bold' : ''}`}>{new Date(timestamp).toLocaleString()}</p>
             </div>
 
