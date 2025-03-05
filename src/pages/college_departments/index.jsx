@@ -40,8 +40,11 @@ export default function DepartmentsPage() {
 
                 if (response.ok) {
                     const data = await response.json(); // Format: [{ name, departments }]
+                    let departments = data.departments;
+                    // sorting departments by name
+                    departments.sort((a, b) => a.name.localeCompare(b.name));
                     setCollegeName(data.name);
-                    setDepartments(data.departments);
+                    setDepartments(departments);
 
                     // adding college name to colleges_name_cache
                     colleges_name_cache[college_id] = data.name;
