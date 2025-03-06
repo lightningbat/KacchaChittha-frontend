@@ -10,7 +10,7 @@ CommentUI.propTypes = {
     user_id: PropTypes.string,
     comment_id: PropTypes.string.isRequired,
     parent_id: PropTypes.string,
-    user_name: PropTypes.string,
+    username: PropTypes.string,
     timestamp: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
@@ -29,7 +29,7 @@ export default function CommentUI({
     user_id,
     comment_id,
     parent_id,
-    user_name,
+    username,
     timestamp,
     content,
     likes,
@@ -148,7 +148,7 @@ export default function CommentUI({
     return (
         <div className="comment-ui">
             <div className="comment-info">
-                {current_user_id !== user_id && user_name && <p className="user-name">{user_name}</p>}
+                {current_user_id !== user_id && username && <p className="user-name">{username}</p>}
                 <p className={`timestamp ${current_user_id === user_id ? 'bold' : ''}`}>{new Date(timestamp).toLocaleString()}</p>
             </div>
 
