@@ -2,6 +2,7 @@ import './style.scss';
 import PropTypes from 'prop-types';
 import RatingStars from './rating_stars';
 
+
 ProfessorCard.propTypes = {
     image: PropTypes.string,
     name: PropTypes.string,
@@ -9,13 +10,19 @@ ProfessorCard.propTypes = {
     department: PropTypes.string,
     designation: PropTypes.string,
     rating: PropTypes.number,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    random_color: PropTypes.string
 }
-export default function ProfessorCard({ image, name, college_name, department, designation, rating=0.5, onClick }) {
+/**
+ * 
+ * @param {Object} props - contains { image, name, college_name, department, designation, rating, onClick, random_color }
+ * @returns {JSX.Element}
+ */
+export default function ProfessorCard({ image, name, college_name, department, designation, rating=0.5, onClick, random_color }) {
 
     // Styling background image
     const clrs = ["rgb(204, 235, 233)", "rgb(204, 235, 206)", "rgb(204, 223, 235)", "rgb(235, 204, 234)", "rgb(235, 204, 204)"];
-    const random_clr = clrs[Math.floor(Math.random() * clrs.length)];
+    const random_clr = random_color || clrs[Math.floor(Math.random() * clrs.length)];
     const background_image = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="${random_clr}" className="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>')`;
 
     return (

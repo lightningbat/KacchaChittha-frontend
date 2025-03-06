@@ -34,7 +34,7 @@
 
     .list-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
         margin-top: 5rem;
         padding: 0 2rem;
         gap: 2rem;

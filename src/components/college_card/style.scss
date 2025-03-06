@@ -32,4 +32,13 @@
         font-size: 1.5rem;
         font-weight: 500;
     }
+
+    @media screen and (max-width: 380px) {
+        padding: 3rem 8rem;
+
+        .img-container {
+            width: 9rem;
+            height: 9rem;
+        }
+    }
 }

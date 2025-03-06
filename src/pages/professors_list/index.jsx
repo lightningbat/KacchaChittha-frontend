@@ -6,6 +6,10 @@ import { professors_list_cache } from '../../utils/cache';
 import useCustomDialog from '../../custom/dialogs';
 import { ResizingBars } from '../../custom/loading_animations';
 
+const card_bg_clrs = ["rgb(204, 235, 233)", "rgb(204, 235, 206)", "rgb(204, 223, 235)", "rgb(235, 204, 234)", "rgb(235, 204, 204)"];
+// randomly sorting clrs
+card_bg_clrs.sort(() => Math.random() - 0.5);
+
 export default function ProfessorsListPage() {
     const customDialogs = useCustomDialog();
     const navigate = useNavigate();
@@ -186,13 +190,13 @@ export default function ProfessorsListPage() {
                 <div className="search-msg">{searchMsg}</div>
             </div>
             {!loadingData && <div className="list-container">
-                {professors.map((professor) => (
-                    <div onClick={() => navigate(`/professor/${professor.prof_id}`)} className="list-item" key={professor.prof_id}><ProfessorCard {...professor} /></div>
+                {professors.map((professor, index) => (
+                    <ProfessorCard onClick={() => navigate(`/professor/${professor.prof_id}`)} key={professor.prof_id} random_color={card_bg_clrs[index % card_bg_clrs.length]} {...professor} />
                 ))}
             </div>}
-            {(!loadingData && professors.length > 0 && search_box_ref.current.value == "") && <>{!loadingMore ? 
-                <button className="load-more-btn" onClick={handleLoadMore}>Load More</button> 
-                : 
+            {(!loadingData && professors.length > 0 && search_box_ref.current.value == "") && <>{!loadingMore ?
+                <button className="load-more-btn" onClick={handleLoadMore}>Load More</button>
+                :
                 <div className="loading-animation-container"><ResizingBars /></div>}
             </>}
             {loadingData && <div className="loading-animation-container"><ResizingBars /></div>}

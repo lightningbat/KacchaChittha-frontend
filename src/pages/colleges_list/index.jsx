@@ -43,13 +43,14 @@ export default function CollegesListPage() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setCollegesList(data);
                     // emptying cached data
                     colleges_list_cache.length = 0;
                     // sorting data by name
                     data.sort((a, b) => a.name.localeCompare(b.name));
                     // adding new data to cached data
                     colleges_list_cache.push(...data);
+
+                    setCollegesList(data);
                 } else {
                     customDialogs({
                         type: "alert",
@@ -80,11 +81,11 @@ export default function CollegesListPage() {
             // removing all non-alphabets and non-spaces
             event.target.value = event.target.value.replace(/[^a-zA-Z ]/g, '');
             // trimming spaces
-            const user_input = (event.target.value).trim();          
+            const user_input = (event.target.value).trim();
             if (user_input == "") setSearchMsg("");
 
             const search_result = colleges_list_cache.filter((item) => item.name.toLowerCase().includes(user_input.toLowerCase()));
-            if ( user_input != "") {
+            if (user_input != "") {
                 setSearchMsg("Hit Enter to look in the Database");
             }
             setCollegesList(search_result);
@@ -140,7 +141,7 @@ export default function CollegesListPage() {
             search_box.removeEventListener("keydown", handleInputSearch);
         }
     }, [])
-    
+
     return (
         <div className="colleges-page">
             <h3 className='page-heading'>Look for your college</h3>
