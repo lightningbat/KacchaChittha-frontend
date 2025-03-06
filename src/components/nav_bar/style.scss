@@ -173,6 +173,11 @@ nav {
                     font-weight: 400;
                     color: #3a3a3a;
                     word-break: break-all;
+
+                    & .username {
+                        font-weight: 500;
+                        font-size: 1.3rem;
+                    }
                 }
 
                 &.add-professor,
