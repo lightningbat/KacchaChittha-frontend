@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { comments_cache, replies_cache } from '../../../../../utils/cache';
 import useCustomDialog from '../../../../../custom/dialogs';
+import { format } from 'timeago.js';
 
 CommentUI.propTypes = {
     user_id: PropTypes.string,
@@ -149,7 +150,7 @@ export default function CommentUI({
         <div className="comment-ui">
             <div className="comment-info">
                 {current_user_id !== user_id && username && <p className="user-name">{username}</p>}
-                <p className={`timestamp ${current_user_id === user_id ? 'bold' : ''}`}>{new Date(timestamp).toLocaleString()}</p>
+                <p className={`timestamp ${current_user_id === user_id ? 'bold' : ''}`}>{format(timestamp)}</p>
             </div>
 
             {current_user_id === user_id && <div className="menu no-select">
