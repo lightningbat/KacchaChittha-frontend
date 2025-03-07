@@ -42,11 +42,12 @@ export default function ForgotPass({ changePage, defaultValue, setUserInput }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!isFormValid || loading) return;
         setLoading(true);
         setError({ type: null, message: null });
 
         // getting form data
-        const email = event.target[1].value;
+        const email = email_input_ref.current.value;
 
         const response = await authFetch({ route: "forgot-password", payload: { email } });
 

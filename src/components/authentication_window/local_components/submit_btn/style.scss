@@ -16,7 +16,7 @@
         font-weight: 500;
         cursor: pointer;
 
-        &:disabled {
+        &.disabled {
             background-color: #E5E5E5;
             color: #666666;
             cursor: not-allowed;

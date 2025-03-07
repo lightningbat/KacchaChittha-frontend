@@ -9,7 +9,7 @@ SubmitBtn.propTypes = {
 export default function SubmitBtn({loading, ready_to_submit}) {
     return (
         <div className="submit-btn-cont">
-            {!loading && <button disabled={!ready_to_submit} className="authentication submit-btn no-select" type="submit">Submit</button>}
+            {!loading && <button className={`authentication submit-btn no-select ${!ready_to_submit && 'disabled'}`} type="submit">Submit</button>}
             {loading && <Spinner scale={0.5} thickness={2} color="#31a754" />}
         </div>
     )

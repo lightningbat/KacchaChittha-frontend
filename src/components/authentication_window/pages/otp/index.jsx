@@ -45,11 +45,12 @@ export default function Otp({ changePage, redirected_from, user_email, closeWind
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!isFormValid || loading) return;
         setLoading(true);
         setError({ type: null, message: null });
 
         // getting otp from form
-        const otp = event.target[1].value;
+        const otp = otp_input_ref.current.value;
 
         const response = await authFetch({ route: "verify-otp", payload: { otp, email: user_email } });
 

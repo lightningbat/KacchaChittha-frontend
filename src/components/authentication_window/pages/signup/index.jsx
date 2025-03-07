@@ -54,13 +54,14 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!isFormValid || loading) return;
         setLoading(true);
         setError({ type: null, message: null });
 
         // getting form data
-        const name = event.target[1].value;
-        const email = event.target[2].value;
-        const password = event.target[3].value;
+        const name = name_input_ref.current.value;
+        const email = email_input_ref.current.value;
+        const password = password_input_ref.current.value;
 
         const response = await authFetch({ route: "signup", payload: { name, email, password } });
 

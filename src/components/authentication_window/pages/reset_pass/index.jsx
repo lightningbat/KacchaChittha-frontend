@@ -37,11 +37,12 @@ export default function ResetPass({ changePage, user_email }) {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!isFormValid || loading) return;
         setLoading(true);
         setError({ type: null, message: null });
 
         // getting form data
-        const password = event.target[1].value;
+        const password = password_input_ref.current.value;
 
         const response = await authFetch({ route: "reset-password", payload: { password, email: user_email } });
 

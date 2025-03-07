@@ -50,12 +50,13 @@ export default function Login({ defaultValue, setUserInput, changePage, closeWin
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (!isFormValid || loading) return;
         setLoading(true);
         setError({ type: null, message: null });
 
         // getting form data
-        const email = event.target[1].value;
-        const password = event.target[2].value;
+        const email = email_input_ref.current.value;
+        const password = password_input_ref.current.value;
 
         const response = await authFetch({ route: "login", payload: { email, password } });
 
