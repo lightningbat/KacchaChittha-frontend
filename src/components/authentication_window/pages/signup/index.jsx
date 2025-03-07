@@ -16,16 +16,23 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
     const name_input_ref = useRef(null);
     const email_input_ref = useRef(null);
     const password_input_ref = useRef(null);
+    const terms_input_ref = useRef(null);
     const [isFormValid, setIsFormValid] = useState(false);
 
     const validateForm = () => {
         const name = name_input_ref.current.value;
         const email = email_input_ref.current.value;
         const password = password_input_ref.current.value;
+        const terms = terms_input_ref.current.checked;
         
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // This regex matches a basic email format
 
-        if (emailRegex.test(email) && password.length > 0 && name.length > 0) {
+        if (!emailRegex.test(email)) console.log("Email");
+        if (password.length <= 0) console.log("Password");
+        if (name.length <= 0) console.log("Name");
+        if (!terms) console.log("Terms");
+
+        if (emailRegex.test(email) && password.length > 0 && name.length > 0 && terms) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -99,6 +106,12 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
                         {error.message && (error.type !== "name" && error.type !== "email" && error.type !== "password") && 
                         <span className="error-text">{error.message}</span>}
                     </p>
+                    <div className="terms-conditions">
+                        <input type="checkbox" name="terms" id="terms" ref={terms_input_ref} onChange={validateForm} />
+                        <label htmlFor="terms">By signing up, you agree to our&nbsp;
+                            <a target="_blank" href="https://drive.google.com/file/d/17a8dsox0mCxxYqxUfbPeMmfv-F6CLLg5/view?usp=sharing">Terms & Conditions</a>
+                        </label>
+                    </div>
                     <SubmitBtn loading={loading} ready_to_submit={isFormValid} />
                 </fieldset>
             </form>
