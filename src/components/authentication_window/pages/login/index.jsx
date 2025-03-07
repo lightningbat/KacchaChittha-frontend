@@ -38,6 +38,9 @@ export default function Login({ defaultValue, setUserInput, changePage, closeWin
         email_input.addEventListener("input", validateForm);
         password_input.addEventListener("input", validateForm);
 
+        // initial validation, in case user has entered data before
+        validateForm();
+
         return () => {
             email_input.removeEventListener("input", validateForm);
             password_input.removeEventListener("input", validateForm);
@@ -58,7 +61,7 @@ export default function Login({ defaultValue, setUserInput, changePage, closeWin
 
         if (response.code === 200 || response.code === 202) {
             if (response.code === 200) closeWindow(true);
-            else {
+            else { // user is not verified
                 setUserInput({ email, password });
                 changePage("otp");
             }

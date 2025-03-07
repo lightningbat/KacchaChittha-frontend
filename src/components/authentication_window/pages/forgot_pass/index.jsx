@@ -31,6 +31,10 @@ export default function ForgotPass({ changePage, defaultValue, setUserInput }) {
     useEffect(() => {
         const email_input = email_input_ref.current;
         email_input.addEventListener("input", validateForm);
+
+        // initial validation, in case user has entered data before
+        validateForm();
+        
         return () => {
             email_input.removeEventListener("input", validateForm);
         }

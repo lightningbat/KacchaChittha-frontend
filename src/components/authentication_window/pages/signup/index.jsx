@@ -42,6 +42,9 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
         email_input.addEventListener("input", validateForm);
         password_input.addEventListener("input", validateForm);
 
+        // validating form on load, incase if it's already filled (when user edits the page)
+        validateForm();
+
         return () => {
             name_input.removeEventListener("input", validateForm);
             email_input.removeEventListener("input", validateForm);
@@ -63,6 +66,7 @@ export default function Signup({ changePage, defaultValue, setUserInput }) {
 
         if (response.code === 201) {
             setUserInput({ name, email, password });
+            setLoading(false);
             changePage("otp")
         }
         else {
