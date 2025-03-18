@@ -25,6 +25,7 @@ export default function CommentSection({ prof_id, is_same_college, showAuthentic
     const [editCommentId, setEditCommentId] = useState({comment_id: null, parent_id: null});
     const [editCommentText, setEditCommentText] = useState("");
     const commentInputRef = useRef(null);
+    const [commentBtnDisabled, setCommentBtnDisabled] = useState(true);
 
 
     //distribute comments into user comments and other comments
@@ -341,6 +342,10 @@ export default function CommentSection({ prof_id, is_same_college, showAuthentic
                             if (!user_details_cache.get('user_id')) {
                                 showAuthenticationWindow();
                             }
+                        }}
+                        onChange={(e) => {
+                            if (e.target.value) setCommentBtnDisabled(false);
+                            else setCommentBtnDisabled(true);
                         }} />
                         {!postingComment && <> 
                             {editCommentId?.comment_id && 
@@ -350,7 +355,7 @@ export default function CommentSection({ prof_id, is_same_college, showAuthentic
                                     </svg>
                                 </button>
                             }
-                            <button className='btn-submit' type="submit">
+                            <button className={`btn-submit ${!commentBtnDisabled && 'active '}`} type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-cursor-fill" viewBox="0 0 16 16">
                                     <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
                                 </svg>

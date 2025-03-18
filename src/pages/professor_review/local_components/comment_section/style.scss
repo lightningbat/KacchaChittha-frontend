@@ -8,7 +8,7 @@
     .section-title {
         font-size: 1.7rem;
         font-weight: 500;
-        color: #1b1b1b;
+        color: #4D4D4D;
         margin-bottom: 2rem;
 
         .total-count {
@@ -47,6 +47,12 @@
             }
 
             .btn-submit {
+                &.active {
+                    background-color: #105a41;
+                    color: #c4ffa5;
+                    border-color: transparent;
+                    cursor: pointer;
+                }
                 svg {
                     transform: rotate(41deg);
                     width: 2rem;

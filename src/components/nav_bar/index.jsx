@@ -8,7 +8,7 @@ import { Spinner } from '../../custom/loading_animations'
 import { user_details_cache } from '../../utils/cache';
 import PropTypes from 'prop-types'
 
-import kaccha_chittha_icon from '../../assets/media/kaccha_chittha_icon.png'
+import kaccha_chittha_icon from '../../assets/media/kc_logo.svg'
 
 NavBar.propTypes = {
     setShowAuthWindow: PropTypes.func,

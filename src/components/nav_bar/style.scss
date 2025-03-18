@@ -1,5 +1,8 @@
 $links-position-change-width: 530px;
-
+$background-color: #105a41;
+$background-color-mobile: #255f4c;
+$foreground-color: #c4ffa5;
+$foreground-color-secondary: #c4ffa5;
 nav {
     position: fixed;
     top: 0;
@@ -34,7 +37,7 @@ nav {
         align-items: center;
         height: 5rem;
         padding: 0 2rem;
-        background-color: #AFE1AF;
+        background-color: $background-color;
 
         @media screen and (max-width: $links-position-change-width) {
             .links {
@@ -45,7 +48,7 @@ nav {
 
     .nav-mobile-view {
         display: none;
-        background-color: #d5f5d5;
+        background-color: $background-color-mobile;
 
         @media screen and (max-width: $links-position-change-width) {
             display: flex;
@@ -91,16 +94,17 @@ nav {
                 cursor: pointer;
                 gap: 0.3rem;
                 font-size: 1.6rem;
-                color: #3b684f;
+                color: $foreground-color-secondary;
                 text-decoration: none;
             }
 
             &:hover {
                 text-decoration: underline;
+                text-decoration-color: $foreground-color-secondary;
             }
 
             svg {
-                stroke: #2a493856;
+                stroke: $foreground-color-secondary;
                 width: 2.2rem;
                 height: 1.8rem;
             }
@@ -110,10 +114,10 @@ nav {
     .about-us-btn {
         flex-shrink: 0;
         cursor: pointer;
-        color: #3b684f;
+        color: $foreground-color;
         font-size: 1.3rem;
         font-weight: 500;
-        border: 1px solid #3b684f;
+        border: 1px solid $foreground-color;
         padding: 0.5rem 0.7rem;
         border-radius: 2rem;
     }
@@ -126,7 +130,7 @@ nav {
 
         .login {
             cursor: pointer;
-            color: #3b684f;
+            color: $foreground-color-secondary;
             font-size: 2rem;
 
             &:hover {
@@ -137,7 +141,7 @@ nav {
         .user-icon {
             width: 2.5rem;
             height: 2.5rem;
-            fill: #2a4938;
+            fill: $foreground-color;
             cursor: pointer;
         }
 

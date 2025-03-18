@@ -1,3 +1,5 @@
+$text-color: #105a41;
+
 .home-page {
     padding-top: 5rem;
     height: 100vh;
@@ -16,7 +18,7 @@
 
     .hero-section {
         padding: 3rem;
-        color: #252525;
+        color: $text-color;
         min-width: 240px;
 
         @media screen and (max-width: 400px) {
@@ -37,7 +39,7 @@
         }
 
         & > div {
-            background-color: rgba(175, 225, 175, 0.466);
+            background-color: #c4ffa5;
             padding: 3rem 6rem;
             border-radius: 2rem;
         }
@@ -88,7 +90,7 @@
             font-size: 2.5rem;
             font-weight: 400;
             text-align: center;
-            color: rgb(77, 77, 77);
+            color: #4d4d4d;
         }
 
         .featured-tabs {
@@ -116,12 +118,12 @@
                     
                     &.active {
                         p {
-                            color: rgb(52, 179, 52);
+                            color: #134d39;
                         }
 
                         .active-border {
                             height: 0.6rem;
-                            background-color: rgb(111, 185, 111);
+                            background-color: #105a41;
                             border-radius: 5px 5px 0 0;
                         }
                     }
@@ -156,8 +158,8 @@
             text-align: center;
             font-size: 1.5rem;
             font-weight: 500;
-            background-color: #94db94;
-            color: white;
+            background-color: $text-color;
+            color: #c4ffa5;
             padding: 0.5rem 0;
             width: 100%;
         }
